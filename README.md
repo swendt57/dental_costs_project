@@ -1,4 +1,4 @@
-##Dental Cost Comparison bewteen San Diego, California and Tijuana, Mexico
+## Dental Cost Comparison bewteen San Diego, California and Tijuana, Mexico
 
 San Diego and Tijuana are on either side of the USA/Mexico international border. Due to this proximity, I know of many people, especially 
 those without insurance, who go to Tijuana for their dental work. (Years ago, I was one of those people.) I thought it would be 
