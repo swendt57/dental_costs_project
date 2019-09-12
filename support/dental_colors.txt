@@ -1,0 +1,8 @@
+#0097ac - turquoise
+#93499e - purple
+#fbe22e - yellow/gold
+#42b4e6 - light blue
+#f8779e - pink
+#5e2f25 - brown
+
+from Linked In Learning - Colors in Dentistry & Life
