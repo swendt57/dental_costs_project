@@ -6,8 +6,8 @@ interesting to compare the costs of basic services.
 
 After researching on the Internet, I decided to start with Yelp's Top Ten Most Affordable Dentists in San Diego and in Tijuana.
 
-I am using real data whenever possible, however, many dentists, especially those in the US on the affordable list, are reticent 
-to share any figures on the phone. Due to this, I have had to insert fake data but I will clear as such.
+I am using real data whenever possible, however, many dentists, especially those on the US affordable list, are reticent 
+to share any figures on the phone. Due to this, I have had to insert fake data but I will mark it as such.
 
 Since this is a school project, and the main purpose is to show that I can create engaging interactive websites, and after 
 checking with my mentor, I am proceeding as described above.
@@ -17,6 +17,38 @@ checking with my mentor, I am proceeding as described above.
 ### Features
 
 ### Technologies Used
+
+* JavaScript
+  * XXX
+  * XXX
+* jQuery
+  * XXX
+  * XXX
+* Jasmine
+  * XXX
+  * XXX
+* D3, DC, Cross Filter 
+  * XXX
+  * XXX
+* Bootstrap 4
+  * https://getbootstrap.com/docs/4.0/getting-started/introduction/
+  * Responsive, mobile-first, framework
+* Google Fonts
+  * https://fonts.google.com/
+  * Free, open-source, fonts
+* Google Maps API
+  * XXX
+  * XXX
+* Font Awesome
+  * https://fontawesome.com
+  * Icons and such
+* IntelliJ IDEA
+  * https://www.jetbrains.com/idea/
+  * Java integrated development environment
+  * My preferred IDE
+* GitHub
+  * https://github.com/swendt57
+  * Code repository
 
 ### Testing
 
