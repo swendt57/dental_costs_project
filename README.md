@@ -33,4 +33,4 @@ checking with my mentor, I am proceeding as described above.
 
 #### Acknowledgements
 
-* This project was inspired by my friend, Gail Dana, of San Diego, CA
+* This project was inspired by my friend, Gail Dana, of San Diego, California
