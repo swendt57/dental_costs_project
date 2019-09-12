@@ -12,25 +12,25 @@ to share any figures on the phone. Due to this, I have had to insert fake data b
 Since this is a school project, and the main purpose is to show that I can create engaging interactive websites, and after 
 checking with my mentor, I am proceeding as described above.
 
-###UX
+### UX
 
-###Features
+### Features
 
-###Technologies Used
+### Technologies Used
 
-###Testing
+### Testing
 
-###Deployment
+### Deployment
 
-###Credits
+### Credits
 
-####Content
+#### Content
 
 * The top ten lists were generated on, and copied from, www.yelp.com on or about 9/9/2019
 
-####Media
+#### Media
 * The color scheme was inspired by Linked In Learning - Colors in Dentistry & Life (www.slideshare.net/Sulzer_Mixpac_Dental/colors-in-dentist)
 
-####Acknowledgements
+#### Acknowledgements
 
 * This project was inspired by my friend, Gail Dana, of San Diego, CA
