@@ -1,8 +1,8 @@
-#0097ac - turquoise
-#93499e - purple
-#fbe22e - yellow/gold
-#42b4e6 - light blue
-#f8779e - pink
-#5e2f25 - brown
+#0097ac - turquoise - 0,151,172
+#93499e - purple - 147,73,158
+#fbe22e - yellow/gold - 251,226,46
+#42b4e6 - light blue - 66,180,230
+#f8779e - pink - 248,119,158
+#5e2f25 - brown - 94,47,37
 
 from Linked In Learning - Colors in Dentistry & Life
