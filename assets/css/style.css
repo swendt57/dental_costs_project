@@ -109,6 +109,7 @@ h2 {
 
 /* BS OR */
 .navbar {
+    z-index: 1100;
     padding: .25rem 1rem .5rem 1rem;
     max-width: 1300px;
     margin: 0 auto;
@@ -131,4 +132,11 @@ a.nav-link:hover {
     background: rgba(255,255,255,.25);
     border-radius: 8px;
     color: #fbe22e;
+}
+
+/*BS OR*/
+.navbar-toggler {
+    padding: 4px;
+    border: 2px solid black;
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='black' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
 }
