@@ -5,9 +5,115 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    script
+
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="assets/data/san_diego_json.js"></script>
+    <script type="text/javascript" src="assets/data/tijuana_json.js"></script>
+
+
+    <title>Top 10 Affordable Dentists</title>
+
+
+
 </head>
 <body>
+
+<header>
+    <div id="header-bg"></div>
+
+    <div class="container">
+        <nav class="navbar fixed-top navbar-expand-lg">
+
+            <a class="navbar-brand" href="index.html">
+                <span class="title">Dental Cost Information</span>
+                <!-- one or the other -->
+                <div class="sub-title d-none d-md-block">San Diego, California vs Tijuana, Mexico</div>
+                <div class="sub-title d-xs-block d-md-none">San Diego vs Tijuana</div>
+            </a>
+
+            <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <!--TODO toggler not opening/closing drop-down-->
+            <div class="collapse navbar-collapse" id="navbarToggler">
+
+                <!-- INFO this needs to be here in order to have the buttons right justified - there has to be a better way -->
+                <ul class="navbar-nav mr-auto mt-2 mt-md-0"></ul>
+
+                <ul class="nav navbar-nav text-right">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html"><span class="home"><span class="nav-text">Home</span></span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="top-ten-affordable.html"><span class="top-ten"><span class="nav-text">Top 10 Affordable</span></span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="cost-comparisons.html"><span class="comparisons"><span class="nav-text">Cost Comparisons</span></span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="maps.html"><span class="maps"><span class="nav-text">Maps</span></span></a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+</header>
+
+<section>
+    <div class="container">
+        <h3>Top 10 Most Affordable Dentists*</h3>
+
+
+
+        <script>
+
+            $(document).ready(function() {
+
+                let sdList = document.getElementById("sdList");
+
+                $(sd_dentists).each(function(i, item){
+                    console.log(item.name, item.city);
+                    sdList.innerHTML += `<li>${item.name}</li>`;
+                });
+
+                let tjList = document.getElementById("tjList");
+
+                $(tj_dentists).each(function(i, item){
+                    console.log(item.name, item.city);
+                    tjList.innerHTML += `<li>${item.name}</li>`;
+                });
+
+            })
+
+
+        </script>
+
+        <div id="sdDentist">
+            <h4>San Diego</h4>
+            <ul id="sdList" class="plainList">
+
+            </ul>
+        </div>
+
+
+        <div id="tjDentist">
+            <h4>Tijuana</h4>
+            <ul id="tjList" class="plainList">
+
+            </ul>
+        </div>
+
+        <p class="footnote">*as shown on Yelp.com on 9/9/2019</p>
+    </div>
+</section>
+
 
 </body>
 </html>

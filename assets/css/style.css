@@ -140,3 +140,75 @@ a.nav-link:hover {
     border: 2px solid black;
     background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='black' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
 }
+
+.footnote {
+    font-size: 12px;
+}
+
+/* --------------------Home Styles-------------------- */
+
+
+/* --------------------Top 10 Styles-------------------- */
+.plainList {
+    list-style-type: none;
+}
+
+#sdDentist {
+    padding-top: 30px;
+    width: 500px;
+    /*remove height*/
+    height: 300px;
+    position: relative;
+    overflow: hidden;
+    font-weight: 500;
+}
+
+#sdDentist:before {
+    padding-top: 30px;
+    content: ' ';
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 20px;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    opacity: 0.1;
+    background-image: url('../images/usa_flag.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    -ms-background-size: cover;
+    -o-background-size: cover;
+    -moz-background-size: cover;
+    -webkit-background-size: cover;
+    background-size: cover;
+}
+
+#tjDentist {
+     padding-top: 30px;
+     width: 500px;
+     position: relative;
+     overflow: hidden;
+     font-weight: 500;
+ }
+
+#tjDentist:before {
+    padding-top: 30px;
+    content: ' ';
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 20px;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    opacity: 0.1;
+    background-image: url('../images/mexico_flag.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    -ms-background-size: cover;
+    -o-background-size: cover;
+    -moz-background-size: cover;
+    -webkit-background-size: cover;
+    background-size: cover;
+}

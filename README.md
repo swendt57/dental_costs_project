@@ -62,7 +62,9 @@ checking with my mentor, I am proceeding as described above.
 
 #### Media
 * The color scheme was inspired by Linked In Learning - Colors in Dentistry & Life (www.slideshare.net/Sulzer_Mixpac_Dental/colors-in-dentist)
+* USA and Mexican flags courtesy of www.pixabay.com
 
 #### Acknowledgements
 
 * This project was inspired by my friend, Gail Dana, of San Diego, California
+* Opaque div background concept from www.scotch.io
