@@ -83,7 +83,7 @@ h3 {
 }
 
 .nav-text {
-    font-size: 14px;
+    font-size: 16px;
 }
 
 /* styles for tablet */
@@ -126,6 +126,7 @@ h3 {
 
 /* BS OR */
 .navbar {
+    background: #0097ac;
     z-index: 1100;
     padding: .25rem 1rem .5rem 1rem;
     max-width: 1300px;
