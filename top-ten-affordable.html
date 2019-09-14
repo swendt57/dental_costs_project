@@ -68,26 +68,32 @@
 
 <section>
     <div class="container">
-        <h3>Top 10 Most Affordable Dentists*</h3>
-
-
+        <h3>Top 10 Most<br>Affordable Dentists*</h3>
 
         <script>
 
             $(document).ready(function() {
 
+                let windowWidth = $(window).width();
+
                 let sdList = document.getElementById("sdList");
 
                 $(sd_dentists).each(function(i, item){
-                    console.log(item.name, item.city);
-                    sdList.innerHTML += `<li>${item.name}</li>`;
+                    if(windowWidth >= 768) {
+                        sdList.innerHTML += `<li>${item.name} &mdash; ${item.address}</li>`;
+                    } else {
+                        sdList.innerHTML += `<li>${item.name}</li>`;
+                    }
                 });
 
                 let tjList = document.getElementById("tjList");
 
                 $(tj_dentists).each(function(i, item){
-                    console.log(item.name, item.city);
-                    tjList.innerHTML += `<li>${item.name}</li>`;
+                    if(windowWidth >= 768) {
+                        tjList.innerHTML += `<li>${item.name} &mdash; ${item.address}</li>`;
+                    } else {
+                        tjList.innerHTML += `<li>${item.name}</li>`;
+                    }
                 });
 
             })
@@ -96,7 +102,7 @@
         </script>
 
         <div id="sdDentist">
-            <h4>San Diego</h4>
+            <h4>San Diego Area</h4>
             <ul id="sdList" class="plainList">
 
             </ul>
@@ -104,7 +110,7 @@
 
 
         <div id="tjDentist">
-            <h4>Tijuana</h4>
+            <h4>Tijuana Area</h4>
             <ul id="tjList" class="plainList">
 
             </ul>
