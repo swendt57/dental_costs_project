@@ -246,6 +246,7 @@ div>h4 {
     div>h4 {
         padding: 10px 10px 3px;
         font-size: 1.75rem;
+        position: relative;
     }
 
     #sdDentist {
@@ -266,11 +267,13 @@ div>h4 {
 
     #sdDentist {
         width: 550px;
+        position: relative;
         float: left;
     }
 
     #tjDentist {
         width: 550px;
+        position: relative;
         float: right;
     }
 }
@@ -278,11 +281,47 @@ div>h4 {
 /* --------------------Maps-------------------- */
 /* MUST have this in order for map to display! */
 div#sdMap {
-    min-height: 500px;
-    width: 600px;
+    min-height: 400px;
+    margin: 20px auto 0;
+    width: 300px
 }
 
 div#tjMap {
-    min-height: 500px;
-    width: 600px;
+    min-height: 400px;
+    margin: 20px auto 0;
+    width: 300px;
+}
+
+/* styles for tablet */
+@media (min-width: 768px) {
+    div#sdMap {
+        min-height: 500px;
+        margin: 20px auto 0;
+        width: 550px
+    }
+
+    div#tjMap {
+        min-height: 500px;
+        margin: 20px auto 0;
+        width: 550px;
+    }
+}
+
+/* styles for desktop */
+@media (min-width: 1025px) {
+    div#sdMap {
+        min-height: 500px;
+        margin: auto;
+        width: 550px;
+        position: relative;
+        float: left;
+    }
+
+    div#tjMap {
+        min-height: 500px;
+        margin: auto;
+        width: 550px;
+        position: relative;
+        float: right;
+    }
 }

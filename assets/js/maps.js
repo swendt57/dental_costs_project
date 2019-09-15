@@ -14,23 +14,23 @@ $(document).ready
         let sdMap = new google.maps.Map(document.getElementById("sdMap"), {
             zoom: 11,
             center: {
-                lat: 32.715736,
-                lng: -117.161087
+                lat: 32.808800,
+                lng: -117.152970
             }
         });
 
         let tjMap = new google.maps.Map(document.getElementById("tjMap"), {
-            zoom: 12,
+            zoom: 13,
             center: {
-                lat: 32.514946,
-                lng: -117.038246
+                lat: 32.510390,
+                lng: -117.006410
             }
         });
 
         let labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-        let sdLocations = assembleSdCoordinates();
-        let tjLocations = assembleTjCoordinates();
+        let sdLocations = assembleCoordinates(sd_dentists);
+        let tjLocations = assembleCoordinates(tj_dentists);
 
         //this is a JS function, not a Google one
         let sdMarkers = sdLocations.map(function (location, i) {
@@ -52,26 +52,12 @@ $(document).ready
 
     }
 
-    function assembleSdCoordinates() {
+    function assembleCoordinates(dentists) {
         let coordinates = [];
 
-        $(sd_dentists).each(function (i, item) {
+        $(dentists).each(function (i, item) {
             coordinates.push({lat: item.latitude, lng: item.longitude});
         });
-
-        console.log(coordinates);
-
-        return coordinates;
-    }
-
-    function assembleTjCoordinates() {
-        let coordinates = [];
-
-        $(tj_dentists).each(function (i, item) {
-            coordinates.push({lat: item.latitude, lng: item.longitude});
-        });
-
-        console.log(coordinates);
 
         return coordinates;
     }
