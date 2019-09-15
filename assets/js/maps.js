@@ -1,55 +1,79 @@
 
+$(document).ready
+{
 
+    //TODO move this to external file
+    const apiKey = "AIzaSyD9Hxr-55XV9DtkcRQqR7bPtFMX8EM5kqI";
+    const mapSrc = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap`;
 
-//TODO move this to external file
-const apiKey = "AIzaSyD9Hxr-55XV9DtkcRQqR7bPtFMX8EM5kqI";
-const mapSrc = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap`;
-
-$.getScript(mapSrc, function() {
-    console.log("map api loaded");
-});
-
-function initMap() {
-    let map = new google.maps.Map(document.getElementById("map"), {
-        zoom: 11,
-        center: {
-            lat: 32.715736,
-            lng: -117.161087
-        }
+    $.getScript(mapSrc, function () {
+        console.log("map api loaded");
     });
 
-    let labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-    // let oldLocations = [
-    //     {lat: 32.82225, lng: -117.157913},
-    //     {lat: 32.81897, lng: -117.183968},
-    //     {lat: 32.753737, lng: -117.223805}
-    // ];
-    //
-    // console.log(oldLocations);
-
-    let locations = assembleCoordinates();
-
-    //this is a JS function, not a Google one
-    let markers = locations.map(function (location, i) {
-        return new google.maps.Marker({
-            position: location,
-            label: labels[i % labels.length]
+    function initMap() {
+        let sdMap = new google.maps.Map(document.getElementById("sdMap"), {
+            zoom: 11,
+            center: {
+                lat: 32.715736,
+                lng: -117.161087
+            }
         });
-    });
 
-    let markerCluster = new MarkerClusterer(map, markers, { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' });
+        let tjMap = new google.maps.Map(document.getElementById("tjMap"), {
+            zoom: 12,
+            center: {
+                lat: 32.514946,
+                lng: -117.038246
+            }
+        });
 
-}
+        let labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-function assembleCoordinates() {
-    let coordinates = [];
+        let sdLocations = assembleSdCoordinates();
+        let tjLocations = assembleTjCoordinates();
 
-    $(sd_dentists).each(function(i, item){
-        coordinates.push({lat: item.latitude, lng: item.longitude});
-    });
+        //this is a JS function, not a Google one
+        let sdMarkers = sdLocations.map(function (location, i) {
+            return new google.maps.Marker({
+                position: location,
+                label: labels[i % labels.length]
+            });
+        });
 
-    console.log(coordinates);
+        let tjMarkers = tjLocations.map(function (location, i) {
+            return new google.maps.Marker({
+                position: location,
+                label: labels[i % labels.length]
+            });
+        });
 
-    return coordinates;
+        let sdMarkerCluster = new MarkerClusterer(sdMap, sdMarkers, {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+        let tjMarkerCluster = new MarkerClusterer(tjMap, tjMarkers, {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+
+    }
+
+    function assembleSdCoordinates() {
+        let coordinates = [];
+
+        $(sd_dentists).each(function (i, item) {
+            coordinates.push({lat: item.latitude, lng: item.longitude});
+        });
+
+        console.log(coordinates);
+
+        return coordinates;
+    }
+
+    function assembleTjCoordinates() {
+        let coordinates = [];
+
+        $(tj_dentists).each(function (i, item) {
+            coordinates.push({lat: item.latitude, lng: item.longitude});
+        });
+
+        console.log(coordinates);
+
+        return coordinates;
+    }
+
 }

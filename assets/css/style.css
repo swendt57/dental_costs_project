@@ -277,7 +277,12 @@ div>h4 {
 
 /* --------------------Maps-------------------- */
 /* MUST have this in order for map to display! */
-div#map {
+div#sdMap {
+    min-height: 500px;
+    width: 600px;
+}
+
+div#tjMap {
     min-height: 500px;
     width: 600px;
 }
