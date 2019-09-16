@@ -29,10 +29,13 @@ h3 {
     font-size: 1.5rem;
 }
 
+p {
+    margin: 20px 10px;
+}
+
 .footnote {
     font-size: 12px;
-    padding-top: 50px;
-    text-align: center;
+    margin: auto 20px;
 }
 
 /* styles for tablet */
@@ -289,14 +292,18 @@ div>h4 {
 /* MUST have this in order for map to display! */
 div#sdMap {
     min-height: 400px;
-    margin: 20px auto 0;
     width: 300px
 }
 
 div#tjMap {
     min-height: 400px;
-    margin: 20px auto 0;
     width: 300px;
+}
+
+.map-container {
+    position: relative;
+    float: left;
+    margin: 10px;
 }
 
 /* styles for tablet */
@@ -319,16 +326,12 @@ div#tjMap {
     div#sdMap {
         min-height: 500px;
         margin: auto;
-        width: 550px;
-        position: relative;
-        float: left;
+        width: 530px;
     }
 
     div#tjMap {
         min-height: 500px;
         margin: auto;
-        width: 550px;
-        position: relative;
-        float: right;
+        width: 530px;
     }
 }

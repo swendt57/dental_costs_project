@@ -68,6 +68,8 @@
     <div class="container">
         <h3>Top 10 Most<br>Affordable Dentists*</h3>
 
+        <p>The external links below launch Google Maps and provides directions to that dental office from your location.</p>
+        <!--TODO combine duplicated code, if possible-->
         <script>
 
             $(document).ready(function() {
@@ -77,15 +79,12 @@
                 let sdList = document.getElementById("sdList");
 
                 $(sd_dentists).each(function(i, item){
-                    // let encodedUrl = encodeURIComponent(`https://www.google.com/maps/dir/?api=1&destination=${item.latitude},${item.longitude}`);
                     if(windowWidth >= 768) {
                         sdList.innerHTML += `<li><a href="https://www.google.com/maps/dir/?api=1&destination=${item.latitude},${item.longitude}" target="_blank">${item.name}</a> &mdash; ${item.address}</li>`;
                     } else {
                         sdList.innerHTML += `<li><a href="https://www.google.com/maps/dir/?api=1&destination=${item.latitude},${item.longitude}" target="_blank">${item.name}</a></li>`;
                     }
                 });
-
-                console.log(sdList);
 
                 let tjList = document.getElementById("tjList");
 
@@ -107,6 +106,7 @@
             <ul id="sdList" class="plainList">
 
             </ul>
+            <span class="footnote">*as shown on Yelp.com on 9/9/2019</span>
         </div>
 
 
@@ -115,9 +115,10 @@
             <ul id="tjList" class="plainList">
 
             </ul>
+            <span class="footnote">*as shown on Yelp.com on 9/9/2019</span>
         </div>
 
-        <p class="footnote">*as shown on Yelp.com on 9/9/2019</p>
+
     </div>
 </section>
 
