@@ -20,10 +20,10 @@ $(document).ready
         });
 
         let tjMap = new google.maps.Map(document.getElementById("tjMap"), {
-            zoom: 13,
+            zoom: 12,
             center: {
-                lat: 32.510390,
-                lng: -117.006410
+                lat: 32.516529,
+                lng: -117.016479
             }
         });
 

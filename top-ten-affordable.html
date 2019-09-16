@@ -55,7 +55,7 @@
                         <a class="nav-link" href="cost-comparisons.html"><span class="comparisons"><span class="nav-text">Cost Comparisons</span></span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="maps.html"><span class="maps"><span class="nav-text">Maps</span></span></a>
+                        <a class="nav-link" href="maps.html"><span class="maps"><span class="nav-text">Location Maps</span></span></a>
                     </li>
                 </ul>
             </div>
@@ -77,20 +77,23 @@
                 let sdList = document.getElementById("sdList");
 
                 $(sd_dentists).each(function(i, item){
+                    // let encodedUrl = encodeURIComponent(`https://www.google.com/maps/dir/?api=1&destination=${item.latitude},${item.longitude}`);
                     if(windowWidth >= 768) {
-                        sdList.innerHTML += `<li>${item.name} &mdash; ${item.address}</li>`;
+                        sdList.innerHTML += `<li><a href="https://www.google.com/maps/dir/?api=1&destination=${item.latitude},${item.longitude}" target="_blank">${item.name}</a> &mdash; ${item.address}</li>`;
                     } else {
-                        sdList.innerHTML += `<li>${item.name}</li>`;
+                        sdList.innerHTML += `<li><a href="https://www.google.com/maps/dir/?api=1&destination=${item.latitude},${item.longitude}" target="_blank">${item.name}</a></li>`;
                     }
                 });
+
+                console.log(sdList);
 
                 let tjList = document.getElementById("tjList");
 
                 $(tj_dentists).each(function(i, item){
                     if(windowWidth >= 768) {
-                        tjList.innerHTML += `<li>${item.name} &mdash; ${item.address}</li>`;
+                        tjList.innerHTML += `<li><a href="https://www.google.com/maps/dir/?api=1&destination=${item.latitude},${item.longitude}" target="_blank">${item.name}</a> &mdash; ${item.address}</li>`;
                     } else {
-                        tjList.innerHTML += `<li>${item.name}</li>`;
+                        tjList.innerHTML += `<li><a href="https://www.google.com/maps/dir/?api=1&destination=${item.latitude},${item.longitude}" target="_blank">${item.name}</a></li>`;
                     }
                 });
 

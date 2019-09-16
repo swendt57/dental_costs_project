@@ -68,4 +68,5 @@ checking with my mentor, I am proceeding as described above.
 
 * This project was inspired by my friend, Gail Dana, of San Diego, California
 * Opaque div background concept from www.scotch.io
-* Thanks to www.stackoverflow.com for keeping me sane
+* Thanks to www.stackoverflow.com for keeping me sane. In particular:
+  * Johannes - https://stackoverflow.com/users/5641669/johannes
