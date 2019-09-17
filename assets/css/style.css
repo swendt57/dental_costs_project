@@ -33,6 +33,11 @@ p {
     margin: 20px 10px;
 }
 
+/* BS OR*/
+.container {
+    margin: 0;
+}
+
 .footnote {
     font-size: 12px;
     margin: auto 20px;
@@ -264,7 +269,7 @@ div>h4 {
     }
 
    #tjDentist {
-        width: 450px;
+       width: 450px;
     }
 }
 
@@ -288,36 +293,50 @@ div>h4 {
     }
 }
 
+/* --------------------Comparisons-------------------- */
+.chart-container {
+    margin-left: 50px;
+}
+
+
 /* --------------------Maps-------------------- */
 /* MUST have this in order for map to display! */
 div#sdMap {
     min-height: 400px;
-    width: 300px
+    width: 300px;
+    margin: 10px auto;
+    border: 1px solid black;
 }
 
 div#tjMap {
     min-height: 400px;
     width: 300px;
+    border: 1px solid black;
 }
 
 .map-container {
-    position: relative;
-    float: left;
-    margin: 10px;
+    margin: 20px 0;
 }
 
 /* styles for tablet */
 @media (min-width: 768px) {
     div#sdMap {
         min-height: 500px;
-        margin: 20px auto 0;
-        width: 550px
+        /*margin: auto;*/
+        width: 550px;
     }
 
     div#tjMap {
         min-height: 500px;
-        margin: 20px auto 0;
+        /*margin: auto;*/
         width: 550px;
+    }
+
+    .map-container {
+        width: 590px;
+        /*margin: 20px auto;*/
+        /*align-self: center;*/
+        /*align-content: center;*/
     }
 }
 
@@ -334,4 +353,25 @@ div#tjMap {
         margin: auto;
         width: 530px;
     }
+
+    .sdMap-container {
+        margin: 20px auto 0;
+        width: 550px;
+        position: relative;
+        float: left;
+        /*margin-right: auto*/
+        /*text-align: center;*/
+        /*padding: 0 20px;*/
+    }
+
+    .tjMap-container {
+        margin: 20px auto 0;
+        width: 550px;
+        position: relative;
+        float: right;
+        /*margin-left: auto;*/
+        /*text-align: center;*/
+        /*padding: 0 20px;*/
+    }
 }
+

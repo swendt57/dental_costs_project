@@ -62,4 +62,98 @@ $(document).ready
         return coordinates;
     }
 
+//    TESTING*****************************************************************
+//     let nestedData = [
+//         {
+//             "name": "San Diego Smile Dentistry",
+//             "abbreviation": "SD Smile",
+//             "address": "7710 Balboa Ave",
+//             "area": "Kearny Mesa",
+//             "city": "San Diego",
+//             "state": "CA",
+//             "zip": 92111,
+//             "phone": "(619) 737-6453",
+//             "latitude": 32.82225,
+//             "longitude": -117.157913,
+//             "procedures": {
+//                 "adult_cleaning": 105,
+//                 "composite_filling": 140,
+//                 "extraction": 110,
+//                 "root_canal": 725,
+//                 "porcelain_crown": 850
+//             },
+//             "website": "https://sd-smile.com/",
+//             "fake_data": "*"
+//         },
+//         {
+//             "name": "Great Smile Dental",
+//             "abbreviation": "Great Smile",
+//             "address": "5210 Balboa Ave",
+//             "area": "Clairemont",
+//             "city": "San Diego",
+//             "state": "CA",
+//             "zip": 92117,
+//             "phone": "(858) 598-5842",
+//             "latitude": 32.81897,
+//             "longitude": -117.183968,
+//             "procedures": {
+//                 "adult_cleaning": 95,
+//                 "composite_filling": 120,
+//                 "extraction": 110,
+//                 "root_canal": 765,
+//                 "porcelain_crown": 1105
+//             },
+//             "website": "https://great-smile-dental-orthodontics-and-periodontics.business.site/",
+//             "fake_data": "*"
+//         },
+//         {
+//             "name": "Dental Express",
+//             "abbreviation": "Express",
+//             "address": "4110 W Point Loma Blvd",
+//             "area": "Midway",
+//             "city": "San Diego",
+//             "state": "CA",
+//             "zip": 92110,
+//             "phone": "(619) 304-7327",
+//             "latitude": 32.753737,
+//             "longitude": -117.223805,
+//             "procedures": {
+//                 "adult_cleaning": 100,
+//                 "composite_filling": 120,
+//                 "extraction": 125,
+//                 "root_canal": 785,
+//                 "porcelain_crown": 950
+//             },
+//             "website": "https://thedentalexpress.com/w-point-loma-blvd/",
+//             "fake_data": "*"
+//         }
+//         ];
+//
+//     function parseData(data) {
+//         var result = {};
+//         function recurse (cur, prop) {
+//             if (Object(cur) !== cur) {
+//                 result[prop] = cur;
+//             } else if (Array.isArray(cur)) {
+//                 for(var i=0, l=cur.length; i<l; i++)
+//                     recurse(cur[i], prop ? prop+"."+i : ""+i);
+//                 if (l == 0)
+//                     result[prop] = [];
+//             } else {
+//                 var isEmpty = true;
+//                 for (var p in cur) {
+//                     isEmpty = false;
+//                     recurse(cur[p], prop ? prop+"."+p : p);
+//                 }
+//                 if (isEmpty)
+//                     result[prop] = {};
+//             }
+//         }
+//         recurse(data, "");
+//         return result;
+//     }
+//
+//     console.log(parseData(nestedData));
+
+
 }
