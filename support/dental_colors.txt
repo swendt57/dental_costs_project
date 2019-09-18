@@ -6,3 +6,13 @@
 #5e2f25 - brown - 94,47,37
 
 from Linked In Learning - Colors in Dentistry & Life
+
+chart colors (all pale-ish)
+
+blue:   #4e92c3
+orange: #ff984a
+green:  #57b358
+red:    #de5355
+lav:    #a885bf
+brown:  #a3776e
+pink:   #e992ce
