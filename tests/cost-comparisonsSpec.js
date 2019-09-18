@@ -1,5 +1,5 @@
 
-describe("Cost comparisons tests", function() {
+describe("cost-comparisons - assembleDataSet", function() {
 
     let costData = [
         {"name": "San Diego Smile Dentistry", "city": "San Diego", "procedure": "adult_cleaning", "cost": 105},
