@@ -1,6 +1,6 @@
 
-$(document).ready
-{
+// $(document).ready
+// {
 
     //TODO move this to external file
     const apiKey = "AIzaSyD9Hxr-55XV9DtkcRQqR7bPtFMX8EM5kqI";
@@ -156,4 +156,4 @@ $(document).ready
 //     console.log(parseData(nestedData));
 
 
-}
+// }
