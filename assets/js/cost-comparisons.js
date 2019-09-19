@@ -5,77 +5,58 @@ queue()
 
 function makeGraphs(error, costData) {
 
-    // var data = [{"food":"Hotdogs","quantity":24},{"food":"Tacos","quantity":15},{"food":"Pizza","quantity":3},{"food":"Double Quarter Pounders with Cheese","quantity":2},{"food":"Omelets","quantity":30},{"food":"Falafel and Hummus","quantity":21},{"food":"Soylent","quantity":13}]
+    // let data = assembleDataSet();
 
-    let data = assembleDataSet();
+    let svg = d3.select("averageCostByCity")
 
-    let margin = {top:10, right:10, bottom:90, left:50};
+    let margin = {top: 20, right: 20, bottom: 30, left: 50},
+        width = 500 - margin.left - margin.right,
+        height = 500 - margin.top - margin.bottom;
 
-    let width = 500; //- margin.left - margin.right;
-    let height = 500; //- margin.top - margin.bottom;
+    let x = d3.scaleLinear().rangeRound([0, width]);
+    let y = d3.scaleBand().rangeRound([0,height]).padding(0.1);
 
-    let xScale = d3.scale.ordinal().rangeRoundBands([0, width], .03)
-    let yScale = d3.scale.linear().range([height, 0]);
+    let g = svg.append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    // var xAxis = d3.axisBottom(xScale).tickFormat(function(d){ return d.x;});
-    // // var yAxis = d3.axisLeft(yRange);
+    d3.csv("assets/data/combined.csv", function(error, data) {
+        if (error) throw error;
+        console.log(data);
 
-    let xAxis = d3.svg.axis()
-        .scale(xScale)
-        .orient("bottom");
-
-    let yAxis = d3.svg.axis()
-        .scale(yScale)
-        .orient("left")
-        .ticks(10);
-
-    let svg = d3.select("#averageCostByCity").append("svg")
-        .attr("width", width+margin.left + margin.right)
-        .attr("height",height+margin.top + margin.bottom)
-        .append("g").attr("class", "container")
-        .attr("transform", "translate("+ margin.left +","+ margin.top +")");
-
-    xScale.domain(data.map(function(d) { return d.procedure; }));
-    // yScale.domain([0, d3.max(data, function(d) { return d.cost; })]);
-    yScale.domain([0, 1000]);
+        x.domain([0, d3.max(data, function(d) { return d.col1; })]);
+        y.domain(data.map(function(d) { return d.letter; }));
 
 
-//xAxis. To put on the top, swap "(height)" with "-5" in the translate() statement. Then you'll have to change the margins above and the x,y attributes in the svgContainer.select('.x.axis') statement inside resize() below.
-    var xAxis_g = svg.append("g")
-        .attr("class", "x axis")
-        .attr("transform", "translate(0," + (height) + ")")
-        .call(xAxis)
-        .selectAll("text");
-
-// Uncomment this block if you want the y axis
-    var yAxis_g = svg.append("g")
-            .attr("class", "y axis")
-            .call(yAxis)
-            .append("text")
-            .attr("transform", "rotate(-90)")
-            .attr("y", 6).attr("dy", ".71em")
-            .style("text-anchor", "end").text("Average Cost");
+        g.append("g")
+            .attr("class", "axis x_axis")
+            .attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom(x));
 
 
-    svg.selectAll(".bar")
-        .data(data)
-        .enter()
-        .append("rect")
-        .attr("class", "bar")
-        .attr("x", function(d) { return xScale(d.procedure); })
-        .attr("width", xScale.rangeBand())
-        .attr("y", function(d) { return yScale(d.cost); })
-        .attr("height", function(d) { return height - yScale(d.cost); });
+        g.append("g")
+            .attr("class", "axis y_axis")
+            .call(d3.axisLeft(y));
 
-    svg.selectAll(".text")
-        .data(data)
-        .enter()
-        .append("text")
-        .attr("class","label")
-        .attr("x", (function(d) { return xScale(d.procedure) + xScale.rangeBand() / 2 ; }  ))
-        .attr("y", function(d) { return yScale(d.cost) + 1; })
-        .attr("dy", ".75em")
-        .text(function(d) { return `$${d.cost} ${d.city}`; });
+        g.selectAll(".bar")
+            .data(data)
+            .enter().append("rect")
+            .attr("class", "bar1")
+            .attr("x", 0)
+            .attr("y", function(d) { return y(d.letter) + 10; })
+            .attr("width", function(d) { return x(d.col1); })
+            .attr("height", y.bandwidth() - 20);
+
+        g.selectAll(".bar2")
+            .data(data)
+            .enter().append("rect")
+            .attr("class", "bar2")
+            .attr("x", 0)
+            .attr("y", function(d) { return y(d.letter); })
+            .attr("width", function(d) { return x(d.col2); })
+            .attr("height", y.bandwidth());
+    });
+
+
 }
 
 function assembleDataSet(costData) {
@@ -114,7 +95,7 @@ function assembleDataSet(costData) {
     //
     // console.log(averageCosts);
 
-    averageCosts = [{"procedure": "adult_cleaning", "cost":100, "city":"SD"}, {"procedure": "adult_cleaning", "cost":42, "city":"TJ"}, {"procedure": "composite_filling", "cost":127, "city":"SD"}, {"procedure": "composite_filling", "cost":60, "city":"TJ"}, {"procedure": "extraction", "cost":115, "city":"SD"}, {"procedure": "extraction", "cost":85, "city":"TJ"}, {"procedure": "root_canal", "cost":968, "city":"SD"}, {"procedure": "root_canal", "cost":492, "city":"TJ"}, {"procedure": "porcelain_crown", "cost":758, "city":"SD"}, {"procedure": "porcelain_crown", "cost":303, "city":"TJ"}]
+    averageCosts = [[{"procedure": "adult_cleaning", "cost":100, "city":"SD"}, {"procedure": "adult_cleaning", "cost":42, "city":"TJ"}], [{"procedure": "composite_filling", "cost":127, "city":"SD"}, {"procedure": "composite_filling", "cost":60, "city":"TJ"}], [{"procedure": "extraction", "cost":115, "city":"SD"}, {"procedure": "extraction", "cost":85, "city":"TJ"}], [{"procedure": "root_canal", "cost":968, "city":"SD"}, {"procedure": "root_canal", "cost":492, "city":"TJ"}], [{"procedure": "porcelain_crown", "cost":758, "city":"SD"}, {"procedure": "porcelain_crown", "cost":303, "city":"TJ"}]]
 
     return averageCosts;
 }

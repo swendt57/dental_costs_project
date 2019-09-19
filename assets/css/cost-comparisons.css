@@ -6,8 +6,11 @@
 .axis text {
     font-size: 12px;
 }
-.bar {
+.bar1 {
     fill: #4e92c3;
+}
+.bar2 {
+    fill: #57b358;
 }
 .bar:hover {
     fill: #57b358;
@@ -18,6 +21,6 @@ svg text.label {
     font-weight: 400;
     text-anchor: middle;
 }
-#chartID {
+#averageCostByCity {
     min-width: 531px;
 }
