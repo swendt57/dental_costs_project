@@ -33,14 +33,14 @@
             display: none;
         }
 
-        .bar1 {
-            fill: steelblue;
-            opacity: 0.5;
+        .bar {
+            fill: #4e92c3;
+            /*opacity: 0.5;*/
         }
 
         .bar2 {
-            fill: gray;
-            opacity: 0.5;
+            fill: #57b358;
+            opacity: 0.9;
         }
 
     </style>
@@ -56,12 +56,12 @@
 
             let svg = d3.select(".my_bar");
 
-            let margin = {top: 20, right: 20, bottom: 30, left: 50},
+            let margin = {top: 20, right: 20, bottom: 30, left: 100},
                 width = 500 - margin.left - margin.right,
                 height = 500 - margin.top - margin.bottom;
 
-            let x = d3.scaleLinear().rangeRound([0, width]);
-            let y = d3.scaleBand().rangeRound([0,height]).padding(0.1);
+            let y = d3.scaleLinear().rangeRound([width, 0]);//done //done
+            let x = d3.scaleBand().rangeRound([0, height]).padding(0.1);//done
 
             let g = svg.append("g")
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
@@ -70,16 +70,16 @@
                 if (error) throw error;
                 console.log(data);
 
-                x.domain([0, d3.max(data, function(d) { return d.col1; })]);
-                y.domain(data.map(function(d) { return d.letter; }));
+                y.domain([d3.max(data, function(d) { return d.col1; }), 0]);//done
+                x.domain(data.map(function(d) { return d.letter; }));//done
 
-
+                //axis labels
                 g.append("g")
                     .attr("class", "axis x_axis")
                     .attr("transform", "translate(0," + height + ")")
                     .call(d3.axisBottom(x));
 
-
+                //axis labels
                 g.append("g")
                     .attr("class", "axis y_axis")
                     .call(d3.axisLeft(y));
@@ -88,19 +88,19 @@
                     .data(data)
                     .enter().append("rect")
                     .attr("class", "bar1")
-                    .attr("x", 0)
-                    .attr("y", function(d) { return y(d.letter) + 10; })
-                    .attr("width", function(d) { return x(d.col1); })
-                    .attr("height", y.bandwidth() - 20);
+                    .attr("y", 0) //done
+                    .attr("x", function(d) { return x(d.letter) + 10; }) //done
+                    .attr("height", function(d) { return y(d.col1); }) //done //done
+                    .attr("width", x.bandwidth() - 20); //done //done
 
                 g.selectAll(".bar2")
                     .data(data)
                     .enter().append("rect")
                     .attr("class", "bar2")
-                    .attr("x", 0)
-                    .attr("y", function(d) { return y(d.letter); })
-                    .attr("width", function(d) { return x(d.col2); })
-                    .attr("height", y.bandwidth());
+                    .attr("y", 0) //done
+                    .attr("x", function(d) { return x(d.letter); }) //done
+                    .attr("height", function(d) { return y(d.col2); }) //done //done
+                    .attr("width", x.bandwidth()); //done //done
             });
 
 
