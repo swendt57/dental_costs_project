@@ -102,20 +102,31 @@
 
 </header>
 
-<section class="container chart-container">
+<section class="container">
 
-    <div id="overlay-bar-chart">OVERLAY BAR CHART</div>
+    <p>Average cost of five dental procedures in San Diego and Tijuana in US dollars.</p>
+    <div id="overlay-bar-chart"></div>
 
-    <p>Percent of dental offices willing to provide actual data. Mock data was generated for those offices not will to provide figures.</p>
-    <div id="sd-pie-chart">San Diego</div>
-    <div id="tj-pie-chart">Tijuana</div>
+    <br>
+
+    <p>Chart showing the cost per procedure distribution for all dental offices</p>
+    <div id="distribution-chart"></div>
+
+    <div class="chart-container">
+        <br>
+        <p>Percent of dental offices [from the Most Affordable lists] willing to provide actual data. Mock data was generated
+            for those offices not willing to provide figures. Note that Tijuana offices are more open with their pricing.</p>
+        <div id="sd-pie-chart"><p class="chart-label">San Diego</p></div>
+        <div id="tj-pie-chart"><p class="chart-label">Tijuana</p></div>
+    </div>
 
     <script>
         //TODO May not need
         queue()
             .defer(d3.json, "assets/data/san_diego_test.json")
             .defer(d3.json, "assets/data/tijuana_test.json")
-            .await(function makeGraphs(error, sdData, tjData) {
+            .defer(d3.json, "assets/data/combined_flat.json") //TODO combine the above data sources for use in the scatter chart
+            .await(function makeGraphs(error, sdData, tjData, bothData) {
 
 
             var margin = {
@@ -171,7 +182,7 @@
 
                 let g = svg.selectAll(".bars")
                     .data(data)
-                    .enter().append("g")
+                    .enter().append("g");
 
                 g.append("rect")
                     .attr("class", "bar1")
@@ -203,6 +214,55 @@
                     // .on("mouseover", mouseEnter)
                     // .on("mouseleave", mouseLeave);
 
+
+                // let legend = g.append('g')
+                //     .attr('class', 'legend')
+                //     .attr('transform', 'translate(' + (margin.left + 12) + ', 0)');
+                //
+                // legend.selectAll(".bar1")
+                //     .data(data)
+                //     .enter()
+                //     .append('rect')
+                //     .attr('x', 0)
+                //     .attr('y', function(d, i){
+                //         return i * 18;
+                //     })
+                //     .attr('width', 12)
+                //     .attr('height', 12);
+                //     // .attr('fill', function(d, i){
+                //     //     // return colors(i);
+                //     //     return "red";
+                //     // });
+                //
+                // legend.selectAll('.bar2')
+                //     .data(data)
+                //     .enter()
+                //     .append('rect')
+                //     .attr('x', 0)
+                //     .attr('y', function(d, i){
+                //         return i * 18;
+                //     })
+                //     .attr('width', 12)
+                //     .attr('height', 12);
+                //     // .attr('fill', function(d, i){
+                //     //     // return colors(i);
+                //     //     return "red";
+                //     // });
+                //
+                // legend.selectAll('text')
+                //     .data(data)
+                //     .enter()
+                //     .append('text')
+                //     .text(function(d){
+                //         return d.col1;
+                //     })
+                //     .attr('x', 18)
+                //     .attr('y', function(d, i){
+                //         return i * 18;
+                //     })
+                //     .attr('text-anchor', 'start')
+                //     .attr('alignment-baseline', 'hanging');
+
             });
 
             function type(d) {
@@ -222,8 +282,56 @@
                     .attr("class", "bar1");
             }
 
+            //Scatter chart
+                let ndx = crossfilter(bothData);
 
-            //Pie Charts
+                let proc_dim = ndx.dimension(dc.pluck('procedure'));
+
+                let cost_dim = ndx.dimension(function(d) {
+                    return [d.procedure, d.cost, d.city];// return [d.city, d.procedure, d.cost]; //this adds the city to the array you were looking at
+                });
+
+                let cost_group = cost_dim.group().reduceSum(dc.pluck('cost'));
+
+                let scatter_chart = dc.scatterPlot('#distribution-chart');
+
+                scatter_chart
+                    .width(670)
+                    .height(500)
+                    .dimension(proc_dim)
+                    .x(d3.scale.ordinal())
+                    .xUnits(dc.units.ordinal)
+                    .y(d3.scale.linear().domain([0, 1200]))
+                    .brushOn(false)
+                    .symbolSize(8)
+                    .clipPadding(10)
+                    .xAxisLabel("Procedure")
+                    .yAxisLabel("Cost")
+                    // .legend(dc.legend().x(80).y(20).itemHeight(13).gap(5))
+                    .renderHorizontalGridLines(true)
+                    .group(cost_group);
+
+                // scatter_chart.selectAll("dot")
+                //     .data(bothData)
+                //     .enter().append("circle")
+                //     .attr("r", 5)
+                //     .attr("cx", function(d) { return d.procedure; })
+                //     .attr("cy", function(d) { return d.cost; })
+                //     .on("mouseover", function(d) {
+                //         div.transition()
+                //             .duration(200)
+                //             .style("opacity", .9);
+                //         div	.html(formatTime(d.city + "<br/>"  + d.cost))
+                //             .style("left", (d3.event.pageX) + "px")
+                //             .style("top", (d3.event.pageY - 28) + "px");
+                //     })
+                //     .on("mouseout", function(d) {
+                //         div.transition()
+                //             .duration(500)
+                //             .style("opacity", 0);
+                //     });
+
+            //Pie Charts ***************************************************
 
                 let sdNdx = crossfilter(sdData);
 
@@ -236,7 +344,7 @@
                 });
 
                 dc.pieChart('#sd-pie-chart')
-                    .height(330)
+                    .height(225)
                     .radius(90)
                     .transitionDuration(1500)
                     .dimension(sd_fake_dim)
@@ -253,7 +361,7 @@
                 });
 
                 dc.pieChart('#tj-pie-chart')
-                    .height(330)
+                    .height(225)
                     .radius(90)
                     .transitionDuration(1500)
                     .dimension(tj_fake_dim)
@@ -273,5 +381,35 @@
 
 </body>
 </html>
+
+<!--//Scatter chart BLUE DOTS-->
+<!--let ndx = crossfilter(bothData);-->
+
+<!--let proc_dim = ndx.dimension(dc.pluck('procedure'));-->
+
+<!--let cost_dim = ndx.dimension(function(d) {-->
+<!--return [d.procedure, d.cost, d.city];// return [d.city, d.procedure, d.cost]; //this adds the city to the array you were looking at-->
+<!--});-->
+
+<!--let cost_group = cost_dim.group().reduceSum(dc.pluck('cost')); //blue dot-->
+
+<!--let scatter_chart = dc.scatterPlot('#distribution-chart'); //blue dots-->
+
+<!--scatter_chart-->
+<!--.width(670)-->
+<!--.height(500)-->
+<!--.dimension(proc_dim)-->
+<!--.x(d3.scale.ordinal())-->
+<!--.xUnits(dc.units.ordinal)-->
+<!--.y(d3.scale.linear().domain([0, 1200]))-->
+<!--.brushOn(false) //blue-->
+<!--.symbolSize(8) //blue-->
+<!--.clipPadding(10) //blue-->
+<!--.xAxisLabel("Procedure")-->
+<!--.yAxisLabel("Cost")-->
+<!--// .legend(dc.legend().x(80).y(20).itemHeight(13).gap(5))-->
+<!--.renderHorizontalGridLines(true)-->
+<!--.group(cost_group); //blue dots-->
+
 
 
