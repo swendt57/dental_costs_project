@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/dc/2.1.8/dc.min.css"/>
+    <link rel="stylesheet" href="../assets/css/cost-comparisons.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+
+    <style>
+        div {
+            clear: left;
+        }
+    </style>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.13.0/d3.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/crossfilter/1.3.12/crossfilter.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dc/3.1.3/dc.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/queue-async/1.0.7/queue.min.js"></script>
+
+    <!--<script type="text/javascript" src="assets/js/cost-comparisons.js"></script>-->
+
+    <style>
+
+        .x_axis path {
+            display: none;
+        }
+
+        .bar {
+            fill: #4e92c3;
+            /*opacity: 0.5;*/
+        }
+
+        .bar2 {
+            fill: #57b358;
+            opacity: 0.9;
+        }
+
+    </style>
+
+    <script>
+        queue()
+            .defer(d3.json, "assets/data/combined_flat.json")
+            .await(makeGraphs);
+
+        function makeGraphs(error, costData) {
+
+            // let data = assembleDataSet();
+
+            let svg = d3.select(".my_bar");
+
+            let margin = {top: 20, right: 20, bottom: 30, left: 100},
+                width = 500 - margin.left - margin.right,
+                height = 500 - margin.top - margin.bottom;
+
+            let y = d3.scaleLinear().rangeRound([0, width]);//done //done
+            let x = d3.scaleBand().rangeRound([0, height]).padding(0.1);//done
+
+            let g = svg.append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+            d3.csv("assets/data/combined.csv", function(error, data) {
+                if (error) throw error;
+                console.log(data);
+
+                y.domain([0, d3.max(data, function(d) { return d.col1; })]);//done
+                x.domain(data.map(function(d) { return d.letter; }));//done
+
+                //axis labels
+                g.append("g")
+                    .attr("class", "axis x_axis")
+                    .attr("transform", "translate(0," + height + ")")
+                    .call(d3.axisBottom(x));
+
+                //axis labels
+                g.append("g")
+                    .attr("class", "axis y_axis")
+                    .call(d3.axisLeft(y));
+
+                g.selectAll(".bar")
+                    .data(data)
+                    .enter().append("rect")
+                    .attr("class", "bar1")
+                    .attr("y", 0) //done
+                    .attr("x", function(d) { return x(d.letter) + 10; }) //done
+                    .attr("height", function(d) { return y(d.col1); }) //done //done
+                    .attr("width", x.bandwidth() - 20) //done //done
+                    .on("mouseover", mouseEnter)
+                    .on("mouseleave", mouseLeave);
+
+                g.selectAll(".bar2")
+                    .data(data)
+                    .enter().append("rect")
+                    .attr("class", "bar2")
+                    .attr("y", 0) //done
+                    .attr("x", function(d) { return x(d.letter); }) //done
+                    .attr("height", function(d) { return y(d.col2); }) //done //done
+                    .attr("width", x.bandwidth()); //done //done
+            });
+
+
+            function mouseEnter(d, i) {
+                console.log(d3.select(this));
+                d3.select(this)
+                    .attr("class", "bar2");
+            }
+
+            function mouseLeave(d, i) {
+                d3.select(this)
+                    .attr("class", "bar1");
+            }
+
+        }
+    </script>
+
+    <title>Dental Cost Comparisons</title>
+
+</head>
+<body>
+<header>
+    <div id="header-bg"></div>
+
+    <div class="container">
+        <nav class="navbar fixed-top navbar-expand-lg">
+
+            <a class="navbar-brand" href="../index.html">
+                <span class="title">Dental Cost Information</span>
+                <!-- one or the other -->
+                <div class="sub-title d-none d-md-block">San Diego, California vs Tijuana, Mexico</div>
+                <div class="sub-title d-xs-block d-md-none">San Diego vs Tijuana</div>
+            </a>
+
+            <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <!--TODO toggler not opening/closing drop-down-->
+            <div class="collapse navbar-collapse" id="navbarToggler">
+
+                <!-- INFO this needs to be here in order to have the buttons right justified - there has to be a better way -->
+                <ul class="navbar-nav mr-auto mt-2 mt-md-0"></ul>
+
+                <ul class="nav navbar-nav text-right">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../index.html"><span class="home"><span class="nav-text">Home</span></span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../top-ten-affordable.html"><span class="top-ten"><span class="nav-text">Top 10 Affordable</span></span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../cost-comparisons.html"><span class="comparisons"><span class="nav-text">Cost Comparisons</span></span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../maps.html"><span class="maps"><span class="nav-text">Location Maps</span></span></a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+</header>
+
+<section class="container chart-container">
+
+    <svg width="660" height="700" viewBox="0 0 660 700" class="my_bar"></svg>
+
+    <!--<div id="averageCostByCity"></div>-->
+
+</section>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+</body>
+</html>
+
+
+<!--<div id="stackedChart"></div>-->
+
+<!--<script>-->
+    <!--queue()-->
+        <!--.defer(d3.json, "assets/data/combined_flat.json")-->
+        <!--.await(makeGraphs);-->
+
+    <!--function makeGraphs(error, transactionsData) {-->
+        <!--var ndx = crossfilter(transactionsData);-->
+        <!--let procedure_dim = ndx.dimension(dc.pluck('procedure'));-->
+
+        <!--let costForCleaningSD = procedure_dim.group().reduceSum(function (d) {-->
+            <!--if (d.city === 'San Diego') {-->
+                <!--return +d.cost;-->
+            <!--} else {-->
+                <!--return 0;-->
+            <!--}-->
+        <!--});-->
+
+        <!--let costForCleaningTJ = procedure_dim.group().reduceSum(function (d) {-->
+            <!--if (d.city === 'Tijuana') {-->
+                <!--return +d.cost;-->
+            <!--} else {-->
+                <!--return 0;-->
+            <!--}-->
+        <!--});-->
+
+        <!--var stackedChart = dc.barChart("#stackedChart");-->
+        <!--stackedChart-->
+            <!--.width(500)-->
+            <!--.height(500)-->
+            <!--.dimension(procedure_dim)-->
+            <!--.group(costForCleaningSD, "San Diego")-->
+            <!--.stack(costForCleaningTJ, "Tijuana")-->
+
+            <!--// .valueAccessor(function (d) {-->
+            <!--//     return d.value;-->
+            <!--// })-->
+
+            <!--.x(d3.scale.ordinal())-->
+            <!--.xUnits(dc.units.ordinal)-->
+
+            <!--.legend(dc.legend().x(420).y(0).itemHeight(15).gap(5));-->
+
+        <!--stackedChart.margins().right = 100;-->
+
+        <!--dc.renderAll();-->
+    <!--}-->
+<!--</script>-->

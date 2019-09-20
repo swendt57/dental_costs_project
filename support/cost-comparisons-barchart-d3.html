@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/dc/2.1.8/dc.min.css"/>
+    <link rel="stylesheet" href="../assets/css/style.css">
+
+    <style>
+        div {
+            clear: left;
+        }
+    </style>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/crossfilter/1.3.12/crossfilter.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dc/2.1.8/dc.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/queue-async/1.0.7/queue.min.js"></script>
+
+    <title>Dental Cost Comparisons</title>
+
+</head>
+<body>
+<header>
+    <div id="header-bg"></div>
+
+    <div class="container">
+        <nav class="navbar fixed-top navbar-expand-lg">
+
+            <a class="navbar-brand" href="../index.html">
+                <span class="title">Dental Cost Information</span>
+                <!-- one or the other -->
+                <div class="sub-title d-none d-md-block">San Diego, California vs Tijuana, Mexico</div>
+                <div class="sub-title d-xs-block d-md-none">San Diego vs Tijuana</div>
+            </a>
+
+            <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <!--TODO toggler not opening/closing drop-down-->
+            <div class="collapse navbar-collapse" id="navbarToggler">
+
+                <!-- INFO this needs to be here in order to have the buttons right justified - there has to be a better way -->
+                <ul class="navbar-nav mr-auto mt-2 mt-md-0"></ul>
+
+                <ul class="nav navbar-nav text-right">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../index.html"><span class="home"><span class="nav-text">Home</span></span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../top-ten-affordable.html"><span class="top-ten"><span class="nav-text">Top 10 Affordable</span></span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../cost-comparisons.html"><span class="comparisons"><span class="nav-text">Cost Comparisons</span></span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../maps.html"><span class="maps"><span class="nav-text">Location Maps</span></span></a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+</header>
+
+<section class="container chart-container">
+
+    <div id="averageCostByCity"></div>
+
+    <script>
+        queue()
+            .defer(d3.json, "assets/data/combined_flat.json")
+            .await(makeGraphs);
+
+        function makeGraphs(error, costData) {
+
+            let dataset = assembleDataSet(costData);
+
+            console.log(dataset);
+
+            let w = 500;
+            let h = 600;
+            let barPadding = 1;
+
+            let colWidth = w / dataset.length;
+            let barWidth = colWidth - barPadding;
+
+            var fillIndex = 1;
+
+            let svg = d3.select("#averageCostByCity")
+                .append("svg")
+                .attr("height", h)
+                .attr("width", w);
+
+            svg.selectAll("rect")
+                .data(dataset)
+                .enter()
+                .append("rect")
+                .attr("x", function (d, i) {
+                    return i * colWidth;
+                })
+                .attr("y", function (d) {
+                    return h - d;
+                })
+                .attr("height", function (d) {
+                    return d;
+                })
+                .attr("width", barWidth)
+                .attr("fill", function(d) {
+                    if(fillIndex++ % 2 === 0) {
+                        return "rgba(255,223,0,0.7)";
+                    } else {
+                        return "rgba(94,47,37,0.7)";
+                    }
+                });
+
+            svg.selectAll("text")
+                .data(dataset)
+                .enter()
+                .append("text")
+                .text(function (d) {
+                    return d;
+                })
+                .attr("text-anchor", "middle")
+                .attr("x", function (d, i) {
+                    return i * colWidth + barWidth / 2;
+                })
+                .attr("y", function (d) {
+                    return h - d + 14;
+                })
+                .attr("font-family", "sans-serif")
+                .attr("font-size", "11px")
+                .attr("fill", "white");
+        }
+
+        function assembleDataSet(costData) {
+
+            //[SD, sdCount TJ, tjCount]
+            let rawData = [[0,0,0,0], [0,0,0,0], [0,0,0,0], [0,0,0,0], [0,0,0,0]];
+
+            let adult_cleaning = rawData[0];
+            let composite_filling = rawData[1];
+            let extraction = rawData[2];
+            let porcelain_crown = rawData[3];
+            let root_canal = rawData[4];
+
+            costData.forEach(function(d) {
+                if(d.city === 'San Diego') {
+                    eval(d.procedure)[0] += d.cost;
+                    if (d.cost > 0) {
+                        eval(d.procedure)[1]++
+                    }
+                } else {
+                    eval(d.procedure)[2] += d.cost;
+                    if(d.cost > 0) {
+                        eval(d.procedure)[3]++
+                    }
+                }
+
+            });
+
+            //SD, TJ, SD, TJ ...
+            let averageCosts = [];
+
+            for(let i=0; i<5; i++) {
+                averageCosts.push(Math.round(rawData[i][0] / rawData[i][1]));
+                averageCosts.push(Math.round(rawData[i][2] / rawData[i][3]));
+            }
+
+            return averageCosts;
+        }
+    </script>
+
+</section>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+</body>
+</html>
+
+
+<!--<div id="stackedChart"></div>-->
+
+<!--<script>-->
+<!--queue()-->
+<!--.defer(d3.json, "assets/data/combined_flat.json")-->
+<!--.await(makeGraphs);-->
+
+<!--function makeGraphs(error, transactionsData) {-->
+<!--var ndx = crossfilter(transactionsData);-->
+<!--let procedure_dim = ndx.dimension(dc.pluck('procedure'));-->
+
+<!--let costForCleaningSD = procedure_dim.group().reduceSum(function (d) {-->
+<!--if (d.city === 'San Diego') {-->
+<!--return +d.cost;-->
+<!--} else {-->
+<!--return 0;-->
+<!--}-->
+<!--});-->
+
+<!--let costForCleaningTJ = procedure_dim.group().reduceSum(function (d) {-->
+<!--if (d.city === 'Tijuana') {-->
+<!--return +d.cost;-->
+<!--} else {-->
+<!--return 0;-->
+<!--}-->
+<!--});-->
+
+<!--var stackedChart = dc.barChart("#stackedChart");-->
+<!--stackedChart-->
+<!--.width(500)-->
+<!--.height(500)-->
+<!--.dimension(procedure_dim)-->
+<!--.group(costForCleaningSD, "San Diego")-->
+<!--.stack(costForCleaningTJ, "Tijuana")-->
+
+<!--// .valueAccessor(function (d) {-->
+<!--//     return d.value;-->
+<!--// })-->
+
+<!--.x(d3.scale.ordinal())-->
+<!--.xUnits(dc.units.ordinal)-->
+
+<!--.legend(dc.legend().x(420).y(0).itemHeight(15).gap(5));-->
+
+<!--stackedChart.margins().right = 100;-->
+
+<!--dc.renderAll();-->
+<!--}-->
+<!--</script>-->

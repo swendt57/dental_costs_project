@@ -63,6 +63,7 @@ p {
     h3 {
         font-size: 2rem;
     }
+
 }
 
 /* --------------------Header Styles-------------------- */
@@ -200,6 +201,7 @@ div>h4 {
     margin: 20px auto 0;
     width: 300px;
     position: relative;
+    /*float: left;*/
     overflow: hidden;
     font-weight: 600;
     border: 1px solid black;
@@ -230,6 +232,7 @@ div>h4 {
     margin: 20px auto 0;
     width: 300px;
     position: relative;
+    /*float: right;*/
     overflow: hidden;
     font-weight: 600;
     border: 1px solid black;
@@ -284,6 +287,7 @@ div>h4 {
         width: 550px;
         position: relative;
         float: left;
+        /*left: 300px;*/
     }
 
     #tjDentist {

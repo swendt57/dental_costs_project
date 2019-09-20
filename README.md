@@ -71,3 +71,4 @@ checking with my mentor, I am proceeding as described above.
 * Used the CSV to JSON converter from www.convertcsv.com/csv-to-json.htm
 * Thanks to www.stackoverflow.com for keeping me sane. In particular:
   * Johannes - https://stackoverflow.com/users/5641669/johannes
+  * Mark - https://stackoverflow.com/users/16363/mark - who's examples I leveraged to create the overlay bar chart
