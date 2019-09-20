@@ -222,5 +222,21 @@
     "cost": 785,
     "website": "https://thedentalexpress.com/w-point-loma-blvd/",
     "fake_data": "actual_data"
+  },
+  {
+    "name": "Dental Express",
+    "abbreviation": "Express",
+    "address": "4110 W Point Loma Blvd",
+    "area": "Midway",
+    "city": "San Diego",
+    "state": "CA",
+    "zip": 92110,
+    "phone": "(619) 304-7327",
+    "latitude": 32.753737,
+    "longitude": -117.223805,
+    "procedure": "porcelain_crown",
+    "cost": 950,
+    "website": "https://thedentalexpress.com/w-point-loma-blvd/",
+    "fake_data": "*"
   }
 ]

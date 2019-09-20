@@ -72,6 +72,28 @@
 
             $(document).ready(function() {
 
+                //BEGIN JSON EXAMPLE****************************************************************
+                function loadJSON(callback) {
+                    var xobj = new XMLHttpRequest();
+                    xobj.overrideMimeType("application/json");
+                    xobj.open('GET', 'assets/data/san_diego_test.json', true);
+                    xobj.onreadystatechange = function () {
+                        if (xobj.readyState == 4 && xobj.status == "200") {
+                            callback(JSON.parse(xobj.responseText));
+                        }
+                    };
+                    xobj.send(null);
+                }
+
+                let testData = loadJSON(function(response) {
+                    console.log(response); // this will log out the json object
+                    return response;
+                });
+
+                console.log(testData);
+
+                //END JSON EXAMPLE***************************************************************
+
                 let windowWidth = $(window).width();
 
                 let sdList = document.getElementById("sdList");
