@@ -58,6 +58,7 @@ p {
 @media (min-width: 992px) {
     section {
         padding-top: 120px;
+        width: 100%;
     }
 
     h3 {
@@ -299,7 +300,31 @@ div>h4 {
 
 /* --------------------Comparisons-------------------- */
 .chart-container {
-    margin-left: 50px;
+    /*margin-left: 50px;*/
+    margin: 20px 0;
+}
+
+#sd-pie-chart {
+    height: 300px;
+    width: 350px;
+    position: absolute;
+    left: 25px;
+    float: left;
+    margin-right: 50px;
+}
+
+#tj-pie-chart {
+    height: 300px;
+    width: 350px;
+    display: block;
+    position: relative;
+    float: right;
+}
+
+p.chart-label {
+    margin: 10px;
+    padding: 0;
+    text-align: center;
 }
 
 
@@ -356,6 +381,13 @@ div#tjMap {
         min-height: 500px;
         margin: auto;
         width: 530px;
+    }
+
+    #map-container {
+        margin: auto;
+        width: 100%;
+        height: 500px;
+        text-align: center;
     }
 
     .sdMap-container {

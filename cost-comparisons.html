@@ -37,6 +37,19 @@
             font: 10px sans-serif;
         }
 
+        #legend {
+            padding: 1.5em 0 0 1.5em;
+        }
+
+        li.key {
+            border-top-width: 15px;
+            border-top-style: solid;
+            font-size: .75em;
+            width: 10%;
+            padding-left: 0;
+            padding-right: 0;
+        }
+
         .axis path,
         .axis line {
             fill: none;
@@ -47,6 +60,8 @@
         .x.axis path {
             display: none;
         }
+
+
     </style>
 
     <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
@@ -57,6 +72,9 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/queue-async/1.0.7/queue.min.js"></script>
 
     <title>Dental Cost Comparisons</title>
+
+    //TODO MOVE THIS
+    <script src="assets/js/cost-comparisons.js"></script>
 
 </head>
 <body>
@@ -116,6 +134,7 @@
         <br>
         <p>Percent of dental offices [from the Most Affordable lists] willing to provide actual data. Mock data was generated
             for those offices not willing to provide figures. Note that Tijuana offices are more open with their pricing.</p>
+        <div id="legend"></div>
         <div id="sd-pie-chart"><p class="chart-label">San Diego</p></div>
         <div id="tj-pie-chart"><p class="chart-label">Tijuana</p></div>
     </div>
@@ -123,13 +142,12 @@
     <script>
         //TODO May not need
         queue()
-            .defer(d3.json, "assets/data/san_diego_test.json")
-            .defer(d3.json, "assets/data/tijuana_test.json")
+            .defer(d3.json, "assets/data/san_diego.json")
+            .defer(d3.json, "assets/data/tijuana.json")
             .defer(d3.json, "assets/data/combined_flat.json") //TODO combine the above data sources for use in the scatter chart
             .await(function makeGraphs(error, sdData, tjData, bothData) {
 
-
-            var margin = {
+            let margin = {
                     top: 20,
                     right: 20,
                     bottom: 30,
@@ -142,6 +160,7 @@
                 .rangeRoundBands([0, width], .1);
             let y = d3.scale.linear()
                 .range([height, 0]);
+
 
             let xAxis = d3.svg.axis()
                 .scale(x)
@@ -156,118 +175,66 @@
                 .append("g")
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-            d3.csv("assets/data/combined.csv", type, function(error, data) {
-                console.log(data)
-                x.domain(data.map(function(d) {
-                    return d.letter;
-                }));
-                y.domain([0, d3.max(data, function(d) {
-                    return d.col1;
-                })]);
+            let data = assembleDataSet(bothData);
 
-                svg.append("g")
-                    .attr("class", "x axis")
-                    .attr("transform", "translate(0," + height + ")")
-                    .call(xAxis);
+            x.domain(data.map(function (d) {
+                return d.procedure;
+            }));
+            y.domain([0, 1100])
 
-                svg.append("g")
-                    .attr("class", "y axis")
-                    .call(yAxis)
-                    .append("text")
-                    .attr("transform", "rotate(-90)")
-                    .attr("y", 6)
-                    .attr("dy", ".71em")
-                    .style("text-anchor", "end")
-                    .text("Values");
+            svg.append("g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(0," + height + ")")
+                .call(xAxis);
 
-                let g = svg.selectAll(".bars")
-                    .data(data)
-                    .enter().append("g");
+            svg.append("g")
+                .attr("class", "y axis")
+                .call(yAxis)
+                .append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("y", 6)
+                .attr("dy", ".71em")
+                .style("text-anchor", "end")
+                .text("Values");
 
-                g.append("rect")
-                    .attr("class", "bar1")
-                    .attr("x", function(d) {
-                        return x(d.letter) + 10; // center it
-                    })
-                    .attr("width", x.rangeBand() - 20) // make it slimmer
-                    .attr("y", function(d) {
-                        return y(d.col1);
-                    })
-                    .attr("height", function(d) {
-                        return height - y(d.col1)
-                    });
-                    // .on("mouseover", mouseEnter)
-                    // .on("mouseleave", mouseLeave);
+            let g = svg.selectAll(".bars")
+                .data(data)
+                .enter().append("g");
 
-                g.append("rect")
-                    .attr("class", "bar2")
-                    .attr("x", function(d) {
-                        return x(d.letter);
-                    })
-                    .attr("width", x.rangeBand())
-                    .attr("y", function(d) {
-                        return y(d.col2);
-                    })
-                    .attr("height", function(d) {
-                        return height - y(d.col2)
-                    });
-                    // .on("mouseover", mouseEnter)
-                    // .on("mouseleave", mouseLeave);
+            g.append("rect")
+                .attr("class", "bar1")
+                .attr("x", function (d) {
+                    return x(d.procedure) + 10; // center it
+                })
+                .attr("width", x.rangeBand() - 20) // make it slimmer
+                .attr("y", function (d) {
+                    return y(d.sd_average);
+                })
+                .attr("height", function (d) {
+                    return height - y(d.sd_average)
+                });
+                // .on("mouseover", mouseEnter)
+                // .on("mouseleave", mouseLeave);
 
+            g.append("rect")
+                .attr("class", "bar2")
+                .attr("x", function (d) {
+                    return x(d.procedure);
+                })
+                .attr("width", x.rangeBand())
+                .attr("y", function (d) {
+                    return y(d.tj_average);
+                })
+                .attr("height", function (d) {
+                    return height - y(d.tj_average)
+                });
+                // .on("mouseover", mouseEnter)
+                // .on("mouseleave", mouseLeave);
 
-                // let legend = g.append('g')
-                //     .attr('class', 'legend')
-                //     .attr('transform', 'translate(' + (margin.left + 12) + ', 0)');
-                //
-                // legend.selectAll(".bar1")
-                //     .data(data)
-                //     .enter()
-                //     .append('rect')
-                //     .attr('x', 0)
-                //     .attr('y', function(d, i){
-                //         return i * 18;
-                //     })
-                //     .attr('width', 12)
-                //     .attr('height', 12);
-                //     // .attr('fill', function(d, i){
-                //     //     // return colors(i);
-                //     //     return "red";
-                //     // });
-                //
-                // legend.selectAll('.bar2')
-                //     .data(data)
-                //     .enter()
-                //     .append('rect')
-                //     .attr('x', 0)
-                //     .attr('y', function(d, i){
-                //         return i * 18;
-                //     })
-                //     .attr('width', 12)
-                //     .attr('height', 12);
-                //     // .attr('fill', function(d, i){
-                //     //     // return colors(i);
-                //     //     return "red";
-                //     // });
-                //
-                // legend.selectAll('text')
-                //     .data(data)
-                //     .enter()
-                //     .append('text')
-                //     .text(function(d){
-                //         return d.col1;
-                //     })
-                //     .attr('x', 18)
-                //     .attr('y', function(d, i){
-                //         return i * 18;
-                //     })
-                //     .attr('text-anchor', 'start')
-                //     .attr('alignment-baseline', 'hanging');
-
-            });
 
             function type(d) {
-                d.col1 = +d.col1;
-                d.col2 = +d.col2;
+                d.sd_average = +d.sd_average;
+                d.tj_average = +d.tj_average;
                 return d;
             }
 
@@ -275,6 +242,7 @@
                 console.log(d3.select(this));
                 d3.select(this)
                     .attr("label", "test");
+
             }
 
             function mouseLeave(d, i) {
@@ -282,7 +250,7 @@
                     .attr("class", "bar1");
             }
 
-            //Scatter chart
+            //Scatter chart********************************************************************************
                 let ndx = crossfilter(bothData);
 
                 let proc_dim = ndx.dimension(dc.pluck('procedure'));
@@ -291,13 +259,15 @@
                     return [d.procedure, d.cost, d.city];// return [d.city, d.procedure, d.cost]; //this adds the city to the array you were looking at
                 });
 
-                let cost_group = cost_dim.group().reduceSum(dc.pluck('cost'));
+                let cost_group = cost_dim.group().reduceSum(function(d) {
+                    return [d.cost];
+                });
 
                 let scatter_chart = dc.scatterPlot('#distribution-chart');
 
                 scatter_chart
                     .width(670)
-                    .height(500)
+                    .height(700)
                     .dimension(proc_dim)
                     .x(d3.scale.ordinal())
                     .xUnits(dc.units.ordinal)
@@ -309,7 +279,27 @@
                     .yAxisLabel("Cost")
                     // .legend(dc.legend().x(80).y(20).itemHeight(13).gap(5))
                     .renderHorizontalGridLines(true)
-                    .group(cost_group);
+                    .group(cost_group)
+                    .renderlet(function (chart) {
+                        chart.selectAll("g.x text")
+                        .attr('dx', '-30')
+                        .attr('transform', "translate(-20,0)")
+                    });
+
+                assembleDataSet(bothData);
+
+                // function restructureData(json) {
+                //
+                //     let csv = "procedure,sd_cost,tj_cost";
+                //
+                //
+                //
+                //     // json.forEach(function(d) {
+                //     //
+                //     // });
+                //
+                //     return csv;
+                // }
 
                 // scatter_chart.selectAll("dot")
                 //     .data(bothData)
@@ -335,6 +325,10 @@
 
                 let sdNdx = crossfilter(sdData);
 
+                // sdData.forEach(function(d) {
+                //     console.log(d.);
+                // });
+
                 let sd_fake_dim = sdNdx.dimension(dc.pluck('fake_data'));
 
                 let sd_fakeCount = sd_fake_dim.group().reduceCount(function() {
@@ -348,7 +342,9 @@
                     .radius(90)
                     .transitionDuration(1500)
                     .dimension(sd_fake_dim)
-                    .group(sd_fakeCount);
+                    .group(sd_fakeCount)
+                    // .legend(dc.legend().x(400).y(10).itemHeight(13).gap(5))
+                    // .legend(dc.legendText("yankee"));
 
             let tjNdx = crossfilter(tjData);
 
@@ -371,6 +367,23 @@
 
 
         });
+
+
+
+        var colors = d3.scale.quantize()
+            .range(['beige', 'red']);
+
+        var legend = d3.select('#legend')
+            .append('ul')
+            .attr('class', 'list-inline');
+
+        var keys = legend.selectAll('li.key')
+            .data(colors.range());
+
+            keys.enter().append('li')
+                .attr('class', 'key')
+                .style('border-top-color', String)
+                .text("test");
     </script>
 
 </section>
