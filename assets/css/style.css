@@ -327,6 +327,43 @@ p.chart-label {
     text-align: center;
 }
 
+/* OVERLAY CHART */
+
+.bar1 {
+    fill: #4e92c3;
+    opacity: 0.7;
+}
+
+.bar2 {
+    fill: #57b358;
+    opacity: 0.7;
+}
+
+.bar1:hover {
+    fill: #ff984a;
+    opacity: 0.7;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+
+.x.axis path {
+    display: none;
+}
+
+.axis {
+    font: 10px sans-serif;
+}
+
+/* SCATTER CHARTS */
+
+
+/* PIE CHARTS */
+
 
 /* --------------------Maps-------------------- */
 /* MUST have this in order for map to display! */

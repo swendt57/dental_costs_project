@@ -1,66 +1,202 @@
 
-// queue()
-//     .defer(d3.json, "assets/data/combined_flat.json")
-//     .await(makeGraphs);
-//
-// function makeGraphs(error, costData) {
-//
-//     // let data = assembleDataSet();
-//
-//     let svg = d3.select("averageCostByCity")
-//
-//     let margin = {top: 20, right: 20, bottom: 30, left: 50},
-//         width = 500 - margin.left - margin.right,
-//         height = 500 - margin.top - margin.bottom;
-//
-//     let x = d3.scaleLinear().rangeRound([0, width]);
-//     let y = d3.scaleBand().rangeRound([0,height]).padding(0.1);
-//
-//     let g = svg.append("g")
-//         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-//
-//     d3.csv("assets/data/combined.csv", function(error, data) {
-//         if (error) throw error;
-//         console.log(data);
-//
-//         x.domain([0, d3.max(data, function(d) { return d.col1; })]);
-//         y.domain(data.map(function(d) { return d.letter; }));
-//
-//
-//         g.append("g")
-//             .attr("class", "axis x_axis")
-//             .attr("transform", "translate(0," + height + ")")
-//             .call(d3.axisBottom(x));
-//
-//
-//         g.append("g")
-//             .attr("class", "axis y_axis")
-//             .call(d3.axisLeft(y));
-//
-//         g.selectAll(".bar")
-//             .data(data)
-//             .enter().append("rect")
-//             .attr("class", "bar1")
-//             .attr("x", 0)
-//             .attr("y", function(d) { return y(d.letter) + 10; })
-//             .attr("width", function(d) { return x(d.col1); })
-//             .attr("height", y.bandwidth() - 20);
-//
-//         g.selectAll(".bar2")
-//             .data(data)
-//             .enter().append("rect")
-//             .attr("class", "bar2")
-//             .attr("x", 0)
-//             .attr("y", function(d) { return y(d.letter); })
-//             .attr("width", function(d) { return x(d.col2); })
-//             .attr("height", y.bandwidth());
-//     });
-//
-//
-// }
+queue()
+    .defer(d3.json, "assets/data/combined_flat.json")
+    .await(function makeGraphs(error, allData) {
+
+    //OVERLAY CHART****************************************************************
+
+    let margin = {
+            top: 20,
+            right: 20,
+            bottom: 30,
+            left: 40
+        },
+        width = 500 - margin.left - margin.right,
+        height = 500 - margin.top - margin.bottom;
+
+    let x = d3.scale.ordinal()
+        .rangeRoundBands([0, width], .1);
+    let y = d3.scale.linear()
+        .range([height, 0]);
+
+
+    let xAxis = d3.svg.axis()
+        .scale(x)
+        .orient("bottom");
+    let yAxis = d3.svg.axis()
+        .scale(y)
+        .orient("left");
+
+    let svg = d3.select("#overlay-bar-chart").append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    let overlayData = assembleOverlayDataSet(allData);
+
+    x.domain(overlayData.map(function (d) {
+        return d.procedure;
+    }));
+    y.domain([0, Math.ceil(overlayData[4].sd_average/100)*100 ]); //SD crown is the most expensive procedure
+
+    svg.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(xAxis);
+
+    svg.append("g")
+        .attr("class", "y axis")
+        .call(yAxis)
+        .append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 6)
+        .attr("dy", ".71em")
+        .style("text-anchor", "end")
+        .text("Values");
+
+    let g = svg.selectAll(".bars")
+        .data(overlayData)
+        .enter().append("g");
+
+    g.append("rect")
+        .attr("class", "bar1")
+        .attr("x", function (d) {
+            return x(d.procedure) + 10; // center it
+        })
+        .attr("width", x.rangeBand() - 20) // make it slimmer
+        .attr("y", function (d) {
+            return y(d.sd_average);
+        })
+        .attr("height", function (d) {
+            return height - y(d.sd_average)
+        });
+        // .on("mouseover", mouseEnter)
+        // .on("mouseleave", mouseLeave);
+
+    g.append("rect")
+        .attr("class", "bar2")
+        .attr("x", function (d) {
+            return x(d.procedure);
+        })
+        .attr("width", x.rangeBand())
+        .attr("y", function (d) {
+            return y(d.tj_average);
+        })
+        .attr("height", function (d) {
+            return height - y(d.tj_average)
+        });
+        // .on("mouseover", mouseEnter)
+        // .on("mouseleave", mouseLeave);
+
+
+    function type(d) {
+        d.sd_average = +d.sd_average;
+        d.tj_average = +d.tj_average;
+        return d;
+    }
+
+    function mouseEnter(d, i) {
+        console.log(d3.select(this));
+        d3.select(this)
+            .attr("label", "test");
+
+    }
+
+    function mouseLeave(d, i) {
+        d3.select(this)
+            .attr("class", "bar1");
+    }
+
+    //SCATTER CHART********************************************************************************
+
+    let ndx = crossfilter(allData);
+
+    let proc_dim = ndx.dimension(dc.pluck('procedure'));
+
+    let cost_dim = ndx.dimension(function(d) {
+        return [d.procedure, d.cost, d.city];
+    });
+
+    let cost_group = cost_dim.group().reduceSum(function(d) {
+        return [d.cost];
+    });
+
+    let scatter_chart = dc.scatterPlot('#distribution-chart');
+
+    scatter_chart
+        .width(670)
+        .height(700)
+        .dimension(proc_dim)
+        .x(d3.scale.ordinal())
+        .xUnits(dc.units.ordinal)
+        .y(d3.scale.linear().domain([0, 1200]))
+        .brushOn(false)
+        .symbolSize(8)
+        .clipPadding(10)
+        .xAxisLabel("Procedure")
+        .yAxisLabel("Cost")
+        // .legend(dc.legend().x(80).y(20).itemHeight(13).gap(5))
+        .renderHorizontalGridLines(true)
+        .group(cost_group)
+        .renderlet(function (chart) {
+            chart.selectAll("g.x text")
+                .attr('dx', '-30')
+                .attr('transform', "translate(-20,0)")
+        });
+
+
+    //PIE CHARTS ***************************************************
+
+    let dataByCity = sortDataByCity(allData);
+    let sdData = dataByCity[0];
+    let tjData = dataByCity[1];
+
+    let sdNdx = crossfilter(sdData);
+
+    let sd_fake_dim = sdNdx.dimension(dc.pluck('fake_data'));
+
+    let sd_fakeCount = sd_fake_dim.group().reduceCount(function() {
+        if(d.fake_data === "*") {
+            return d++;
+        }
+    });
+
+    dc.pieChart('#sd-pie-chart')
+        .height(225)
+        .radius(90)
+        .transitionDuration(1500)
+        .dimension(sd_fake_dim)
+        .group(sd_fakeCount)
+    // .legend(dc.legend().x(400).y(10).itemHeight(13).gap(5))
+    // .legend(dc.legendText("yankee"));
+
+    let tjNdx = crossfilter(tjData);
+
+    let tj_fake_dim = tjNdx.dimension(dc.pluck('fake_data'));
+
+    let tj_fakeCount = tj_fake_dim.group().reduceCount(function() {
+        if(d.fake_data === "*") {
+            return d++;
+        }
+    });
+
+    dc.pieChart('#tj-pie-chart')
+        .height(225)
+        .radius(90)
+        .transitionDuration(1500)
+        .dimension(tj_fake_dim)
+        .group(tj_fakeCount);
+
+
+    dc.renderAll();
+
+
+    });
+
 
 //This restructures the data into a structure that the overlay chart can use
-function assembleDataSet(costData) {
+function assembleOverlayDataSet(costData) {
 
     let procedures = ["Adult Cleaning", "Composite Filling", "Extraction", "Root Canal", "Porcelain Crown"];
 
@@ -97,3 +233,48 @@ function assembleDataSet(costData) {
     return averageCosts;
 
 }
+
+function sortDataByCity(allData) {
+    let sdData = [];
+    let tjData = [];
+
+    for(let i=0; i<allData.length; i++) {
+        if(allData[i].city === "San Diego") {
+            sdData.push(allData[i]);
+        } else {
+            tjData.push(allData[i]);
+        }
+    }
+
+    return [sdData, tjData];
+}
+
+// //Scatter chart BLUE DOTS
+// let ndx = crossfilter(bothData);
+//
+// let proc_dim = ndx.dimension(dc.pluck('procedure'));
+//
+// let cost_dim = ndx.dimension(function(d) {
+//     return [d.procedure, d.cost, d.city];// return [d.city, d.procedure, d.cost]; //this adds the city to the array you were looking at
+// });
+//
+// let cost_group = cost_dim.group().reduceSum(dc.pluck('cost')); //blue dot
+//
+// let scatter_chart = dc.scatterPlot('#distribution-chart'); //blue dots
+//
+// scatter_chart
+//     .width(670)
+//     .height(500)
+//     .dimension(proc_dim)
+//     .x(d3.scale.ordinal())
+//     .xUnits(dc.units.ordinal)
+//     .y(d3.scale.linear().domain([0, 1200]))
+//     .brushOn(false) //blue
+//     .symbolSize(8) //blue
+//     .clipPadding(10) //blue
+//     .xAxisLabel("Procedure")
+//     .yAxisLabel("Cost")
+//     // .legend(dc.legend().x(80).y(20).itemHeight(13).gap(5))
+//     .renderHorizontalGridLines(true)
+//     .group(cost_group); //blue dots
+
