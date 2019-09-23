@@ -7,14 +7,12 @@ html, body {
     height: 100%;
     width: 100%;
     display: table; /* used to position footer at bottom of short pages */
-    /*background: rgba(251,226,46,.02);*/
 }
 
 body {
     font-family: "Roboto", sans-serif;
-    font-size: 16px;
-    /*background-color: #151515;*/
-    /*color: #cccccc;*/
+    font-size: 14px;
+    background-color: rgba(255,250,240,.2);
 }
 
 section {
@@ -33,11 +31,6 @@ p {
     margin: 20px 10px;
 }
 
-/* BS OR*/
-.container {
-    margin: 0;
-}
-
 .footnote {
     font-size: 12px;
     margin: auto 20px;
@@ -45,6 +38,10 @@ p {
 
 /* styles for tablet */
 @media (min-width: 768px) {
+    body {
+        font-size: 15px;
+    }
+
     section {
         padding-top: 100px;
     }
@@ -56,9 +53,13 @@ p {
 
 /* styles for desktop */
 @media (min-width: 992px) {
+    body {
+        font-size: 16px;
+    }
+
     section {
         padding-top: 120px;
-        width: 100%;
+        /*width: 100%;*/
     }
 
     h3 {
@@ -75,7 +76,8 @@ p {
     left: 0;
     width: 100%;
     height: 75px;
-    background: #0097ac;
+    /*background: #0097ac;*/
+    background-image: linear-gradient(#0097ac, #007E8C);
     box-shadow: 1px 1px 4px 4px rgba(0,0,0,0.25);
     z-index: 1050;
 }
@@ -143,7 +145,8 @@ p {
 
 /* BS OR */
 .navbar {
-    background: #0097ac;
+    /*background: #0097ac;*/
+    background-image: linear-gradient(#0097ac, #007E8C);
     z-index: 1100;
     padding: .25rem 1rem .5rem 1rem;
     max-width: 1300px;
@@ -164,7 +167,8 @@ a.nav-link {
 a.nav-link:hover {
     /*background: rgba(251,226,46,.8);*/
     /*background: rgba(66,180,230,.5);*/
-    background: rgba(255,255,255,.25);
+    /*background: rgba(255,255,255,.25);*/ /*yellow*/
+    background-image: linear-gradient(#0097ac, #007E8C);
     border-radius: 8px;
     color: #fbe22e;
 }
@@ -179,7 +183,12 @@ a.nav-link:hover {
 
 
 /* --------------------Home Styles-------------------- */
-
+span i {
+    color: #0097ac;
+    vertical-align: text-top;
+    float: left;
+    padding: 10px 10px 5px 0;
+}
 
 /* --------------------Top 10 Styles-------------------- */
 .plainList {
@@ -328,19 +337,17 @@ p.chart-label {
 }
 
 /* OVERLAY CHART */
+#overlay-container {
+    width: 600px;
+}
 
-.bar1 {
+.sdBar {
     fill: #4e92c3;
     opacity: 0.7;
 }
 
-.bar2 {
+.tjBar {
     fill: #57b358;
-    opacity: 0.7;
-}
-
-.bar1:hover {
-    fill: #ff984a;
     opacity: 0.7;
 }
 
@@ -359,6 +366,26 @@ p.chart-label {
     font: 10px sans-serif;
 }
 
+text.label {
+    fill: black;
+    font-size: 12px;
+    font-weight: 500;
+    text-anchor: middle;
+}
+
+text.label.bar1Color {
+    fill: red;
+}
+
+text.legend {
+    text-align: left;
+    fill: black;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+
+
 /* SCATTER CHARTS */
 
 
@@ -367,84 +394,106 @@ p.chart-label {
 
 /* --------------------Maps-------------------- */
 /* MUST have this in order for map to display! */
-div#sdMap {
+#sdMap {
     min-height: 400px;
     width: 300px;
     margin: 10px auto;
     border: 1px solid black;
 }
 
-div#tjMap {
+#tjMap {
     min-height: 400px;
     width: 300px;
+    margin: 10px auto;
     border: 1px solid black;
 }
 
-.map-container {
-    margin: 20px 0;
+#sdMap-container {
+    width: 320px;
+    margin: auto;
 }
+
+#tjMap-container {
+    width: 320px;
+    margin: auto;
+}
+
+
 
 /* styles for tablet */
 @media (min-width: 768px) {
-    div#sdMap {
+    #sdMap {
         min-height: 500px;
-        /*margin: auto;*/
+        margin: auto;
         width: 550px;
     }
 
-    div#tjMap {
+    #tjMap {
         min-height: 500px;
-        /*margin: auto;*/
+        margin: auto;
         width: 550px;
     }
 
-    .map-container {
-        width: 590px;
-        /*margin: 20px auto;*/
-        /*align-self: center;*/
-        /*align-content: center;*/
+    #sdMap-container {
+        width: 550px;
     }
+
+    #tjMap-container {
+        width: 550px;
+    }
+
 }
 
 /* styles for desktop */
 @media (min-width: 1025px) {
-    div#sdMap {
+    #sdMap {
         min-height: 500px;
         margin: auto;
         width: 530px;
     }
 
-    div#tjMap {
+    #tjMap {
         min-height: 500px;
         margin: auto;
         width: 530px;
     }
 
-    #map-container {
-        margin: auto;
-        width: 100%;
-        height: 500px;
-        text-align: center;
-    }
-
-    .sdMap-container {
-        margin: 20px auto 0;
+    #sdMap-container {
         width: 550px;
-        position: relative;
         float: left;
-        /*margin-right: auto*/
-        /*text-align: center;*/
-        /*padding: 0 20px;*/
     }
 
-    .tjMap-container {
-        margin: 20px auto 0;
+    #tjMap-container {
         width: 550px;
-        position: relative;
         float: right;
-        /*margin-left: auto;*/
-        /*text-align: center;*/
-        /*padding: 0 20px;*/
     }
 }
 
+/* --------------------Footer-------------------- */
+footer {
+    width: 100%;
+    font-size: 12px;
+    font-family: "Lato", sans-serif;
+    text-align: center;
+    display: table-row; /* used to position footer at bottom of short pages */
+    height: 0;
+}
+
+.footer-text {
+    margin: 0 auto 15px auto;
+}
+
+.footer-hr {
+    height: 2px;
+    width: 40%;
+    background-color: #0097ac;
+    margin: 30px auto 5px auto;
+    text-align: center;
+}
+
+/* styles for tablet and above */
+@media (min-width: 768px) {
+    footer {
+        font-size: 14px;
+    }
+}

@@ -11,8 +11,9 @@
     <link rel="stylesheet" href="assets/css/style.css">
 
     <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="assets/data/san_diego_data.js"></script>
-    <script type="text/javascript" src="assets/data/tijuana_data.js"></script>
+    <script src="support/raw_data/san_diego_data.js"></script>
+    <script src="support/raw_data/tijuana_data.js"></script>
+    <script src="assets/js/top-ten-affordable.js"></script>
 
 
     <title>Top 10 Affordable Dentists</title>
@@ -67,66 +68,14 @@
         <h3>Top 10 Most<br>Affordable Dentists*</h3>
 
         <p>The external links below launch Google Maps and provide directions to that dental office from your location.</p>
-        <!--TODO combine duplicated code, if possible-->
-        <script>
 
-            $(document).ready(function() {
-
-                //BEGIN JSON EXAMPLE****************************************************************
-                function loadJSON(callback) {
-                    var xobj = new XMLHttpRequest();
-                    xobj.overrideMimeType("application/json");
-                    xobj.open('GET', 'assets/data/san_diego_test.json', true);
-                    xobj.onreadystatechange = function () {
-                        if (xobj.readyState == 4 && xobj.status == "200") {
-                            callback(JSON.parse(xobj.responseText));
-                        }
-                    };
-                    xobj.send(null);
-                }
-
-                let testData = loadJSON(function(response) {
-                    console.log(response); // this will log out the json object
-                    return response;
-                });
-
-                console.log(testData);
-
-                //END JSON EXAMPLE***************************************************************
-
-                let windowWidth = $(window).width();
-
-                let sdList = document.getElementById("sdList");
-
-                $(sd_dentists).each(function(i, item){
-                    if(windowWidth >= 768) {
-                        sdList.innerHTML += `<li><a href="https://www.google.com/maps/dir/?api=1&destination=${item.latitude},${item.longitude}" target="_blank">${item.name}</a> &mdash; ${item.address}</li>`;
-                    } else {
-                        sdList.innerHTML += `<li><a href="https://www.google.com/maps/dir/?api=1&destination=${item.latitude},${item.longitude}" target="_blank">${item.name}</a></li>`;
-                    }
-                });
-
-                let tjList = document.getElementById("tjList");
-
-                $(tj_dentists).each(function(i, item){
-                    if(windowWidth >= 768) {
-                        tjList.innerHTML += `<li><a href="https://www.google.com/maps/dir/?api=1&destination=${item.latitude},${item.longitude}" target="_blank">${item.name}</a> &mdash; ${item.address}</li>`;
-                    } else {
-                        tjList.innerHTML += `<li><a href="https://www.google.com/maps/dir/?api=1&destination=${item.latitude},${item.longitude}" target="_blank">${item.name}</a></li>`;
-                    }
-                });
-
-            })
-
-
-        </script>
 
         <div id="sdDentist">
             <h4>San Diego Area</h4>
             <ul id="sdList" class="plainList">
 
             </ul>
-            <span class="footnote">*as shown on Yelp.com on 9/9/2019</span>
+            <span class="footnote">*as shown on Yelp.com September 2019</span>
         </div>
 
 
@@ -135,12 +84,17 @@
             <ul id="tjList" class="plainList">
 
             </ul>
-            <span class="footnote">*as shown on Yelp.com on 9/9/2019</span>
+            <span class="footnote">*as shown on Yelp.com September 2019</span>
         </div>
 
 
     </div>
 </section>
+
+<footer>
+    <hr class="footer-hr">
+    <p class="footer-text">Map data is &copy;2019 by Google &mdash; Top 10 lists are &copy;2019 Yelp Inc.</p>
+</footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
