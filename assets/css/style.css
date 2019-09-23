@@ -165,8 +165,6 @@ a.nav-link {
 }
 
 a.nav-link:hover {
-    /*background: rgba(251,226,46,.8);*/
-    /*background: rgba(66,180,230,.5);*/
     /*background: rgba(255,255,255,.25);*/ /*yellow*/
     background-image: linear-gradient(#0097ac, #007E8C);
     border-radius: 8px;
@@ -190,10 +188,21 @@ span i {
     padding: 10px 10px 5px 0;
 }
 
+
 /* --------------------Top 10 Styles-------------------- */
 .plainList {
     list-style-type: none;
-    z-index: 100;
+    font-size: .85rem;
+}
+
+.plainList a {
+    color: black;
+    text-decoration: none;
+    font-size: 1rem;
+}
+
+.plainList a:hover {
+    color: #de5355;
 }
 
 div>h4 {
@@ -203,17 +212,12 @@ div>h4 {
     font-size: 1.5rem;
 }
 
-/*#sdList {*/
-    /*z-index: 10;*/
-/*}*/
-
 #sdDentist {
     margin: 20px auto 0;
     width: 300px;
     position: relative;
-    /*float: left;*/
     overflow: hidden;
-    font-weight: 600;
+    font-weight: 500;
     border: 1px solid black;
 }
 
@@ -242,9 +246,8 @@ div>h4 {
     margin: 20px auto 0;
     width: 300px;
     position: relative;
-    /*float: right;*/
     overflow: hidden;
-    font-weight: 600;
+    font-weight: 500;
     border: 1px solid black;
  }
 
@@ -271,6 +274,14 @@ div>h4 {
 
 /* styles for tablet */
 @media (min-width: 768px) {
+    .plainList {
+        font-size: .9rem;
+    }
+
+    .plainList a {
+        font-size: 1.1rem;
+    }
+
     div>h4 {
         padding: 10px 10px 3px;
         font-size: 1.75rem;
@@ -278,16 +289,24 @@ div>h4 {
     }
 
     #sdDentist {
-        width: 450px;
+        width: 500px;
     }
 
    #tjDentist {
-       width: 450px;
+       width: 500px;
     }
 }
 
 /* styles for desktop */
 @media (min-width: 1025px) {
+    .plainList {
+        font-size: 1rem;
+    }
+
+    .plainList a {
+        font-size: 1.2rem;
+    }
+
     div>h4 {
         padding: 15px 15px 5px;
         font-size: 2rem;
@@ -297,7 +316,6 @@ div>h4 {
         width: 550px;
         position: relative;
         float: left;
-        /*left: 300px;*/
     }
 
     #tjDentist {

@@ -7,6 +7,15 @@ $(document).ready(function() {
     let sdList = document.getElementById("sdList");
     let tjList = document.getElementById("tjList");
 
+    function truncateText(text) {
+        if(text.length >= 30) {
+            return $.trim(text).substring(0, 30)
+                .split(" ").slice(0, -1).join(" ") + "...";
+        } else {
+            return text;
+        }
+    }
+
     function readTextFile(file, callback) {
         var xobj = new XMLHttpRequest();
         xobj.overrideMimeType("application/json");
@@ -35,7 +44,7 @@ $(document).ready(function() {
 
         function createHtmlList(list, item) {
             if(windowWidth >= 768) {
-                list.innerHTML += `<li><a href="https://www.google.com/maps/dir/?api=1&destination=${item.latitude},${item.longitude}" target="_blank">${item.name}</a> &mdash; ${item.address}</li>`;
+                list.innerHTML += `<li><a href="https://www.google.com/maps/dir/?api=1&destination=${item.latitude},${item.longitude}" target="_blank">${item.name}</a> &mdash; ${truncateText(item.address)}</li>`;
             } else {
                 list.innerHTML += `<li><a href="https://www.google.com/maps/dir/?api=1&destination=${item.latitude},${item.longitude}" target="_blank">${item.name}</a></li>`;
             }
