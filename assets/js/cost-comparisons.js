@@ -60,7 +60,7 @@ queue()
         .enter().append("g");
 
     g.append("rect")
-        .attr("class", "bar1")
+        .attr("class", "sdBar")
         .attr("x", function (d) {
             return x(d.procedure) + 10; // center it
         })
@@ -70,12 +70,12 @@ queue()
         })
         .attr("height", function (d) {
             return height - y(d.sd_average)
-        });
-        // .on("mouseover", mouseEnter)
-        // .on("mouseleave", mouseLeave);
+        })
+        .on("mouseover", sdEnter)
+        .on("mouseleave", sdLeave);
 
     g.append("rect")
-        .attr("class", "bar2")
+        .attr("class", "tjBar")
         .attr("x", function (d) {
             return x(d.procedure);
         })
@@ -85,10 +85,79 @@ queue()
         })
         .attr("height", function (d) {
             return height - y(d.tj_average)
-        });
-        // .on("mouseover", mouseEnter)
-        // .on("mouseleave", mouseLeave);
+        })
+        .on("mouseover", tjEnter)
+        .on("mouseleave", tjLeave);
 
+    svg.selectAll(".text,sdBar")
+        .data(overlayData)
+        .enter()
+        .append("text")
+        .attr("class", "label sdBar")
+        .attr("x", (function(d) { return x(d.procedure) + 38; }  ))
+        .attr("y", function(d) { return y(d.sd_average) + 3; })
+        .attr("dy", ".75em")
+        .text(function(d) { return `$${d.sd_average}`; });
+
+    svg.selectAll(".text")
+        .data(overlayData)
+        .enter()
+        .append("text")
+        .attr("class", "label tjBar")
+        .attr("x", (function(d) { return x(d.procedure) + 38; }  ))
+        .attr("y", function(d) { return y(d.tj_average) + 5; })
+        .attr("dy", ".75em")
+        .text(function(d) { return `$${d.tj_average}`; });
+        // .on("mouseover", toggleColor)
+        // .on("mouseleave", toggleColor);;
+
+        const legspacing = 25;
+        let rectClasses = ["sdBar", "tjBar"];
+        let labels = ["San Diego", "Tijuana"];
+        let colors = d3.scale.ordinal()
+            .range(["#4e92c3", "#57b358"]);
+
+        let legend = svg.selectAll(".legend")
+            .data(["San Diego","Tijuana"])
+            .enter()
+            .append("g")
+
+        legend.append("rect")
+            .attr("class", function(d, i) {
+                return rectClasses[i];
+            })
+            .attr("fill", colors)
+            .attr("width", 20)
+            .attr("height", 20)
+            .attr("y", function (d, i) {
+                return i * legspacing + 20;
+            })
+            .attr("x", 50);
+
+        legend.append("text")
+            .attr("class", function(d, i) {
+                return "legend " + labels[i]
+            }) //NOT WORKING AS HOPED
+            .attr("y", function (d, i) {
+                return i * legspacing + 32;
+            })
+            .attr("x", 75)
+            .attr("text-anchor", "start")
+            .text(function (d, i) {
+                return labels[i];
+            });
+        legend.select("text.legend.San.Diego")
+            .on("mouseover", sdEnter)
+            .on("mouseleave", sdLeave);
+        legend.select("text.legend.Tijuana")
+            .on("mouseover", tjEnter)
+            .on("mouseleave", tjLeave);
+        legend.select("rect.sdBar")
+            .on("mouseover", sdEnter)
+            .on("mouseleave", sdLeave)
+        legend.select("rect.tjBar")
+            .on("mouseover", tjEnter)
+            .on("mouseleave", tjLeave);;
 
     function type(d) {
         d.sd_average = +d.sd_average;
@@ -96,16 +165,22 @@ queue()
         return d;
     }
 
-    function mouseEnter(d, i) {
-        console.log(d3.select(this));
-        d3.select(this)
-            .attr("label", "test");
-
+    function sdEnter(d, i) {
+        d3.selectAll("rect.sdBar").style("opacity", 1);
+        d3.selectAll("rect.tjBar").style("opacity", .2);
+    }
+    function sdLeave(d, i) {
+        d3.selectAll("rect.sdBar").style("opacity", .7);
+        d3.selectAll("rect.tjBar").style("opacity", .7);
     }
 
-    function mouseLeave(d, i) {
-        d3.select(this)
-            .attr("class", "bar1");
+    function tjEnter(d, i) {
+        d3.selectAll("rect.tjBar").style("opacity", 1);
+        d3.selectAll("rect.sdBar").style("opacity", .2);
+    }
+    function tjLeave(d, i) {
+        d3.selectAll("rect.tjBar").style("opacity", .7);
+        d3.selectAll("rect.sdBar").style("opacity", .7);
     }
 
     //SCATTER CHART********************************************************************************
