@@ -221,7 +221,7 @@ div>h4 {
     width: 300px;
     position: relative;
     overflow: hidden;
-    font-weight: 500;
+    font-weight: 600;
     border: 1px solid black;
 }
 
@@ -235,7 +235,7 @@ div>h4 {
     width: 100%;
     height: 100%;
     z-index: 1;
-    opacity: 0.1;
+    opacity: 0.08;
     background-image: url('../images/usa_flag.png');
     background-repeat: no-repeat;
     background-position: center;
@@ -251,7 +251,7 @@ div>h4 {
     width: 300px;
     position: relative;
     overflow: hidden;
-    font-weight: 500;
+    font-weight: 600;
     border: 1px solid black;
  }
 
@@ -265,7 +265,7 @@ div>h4 {
     width: 100%;
     height: 100%;
     z-index: 1;
-    opacity: 0.1;
+    opacity: 0.08;
     background-image: url('../images/mexico_flag.png');
     background-repeat: no-repeat;
     background-position: center;
@@ -331,6 +331,16 @@ div>h4 {
 
 /* --------------------Comparisons-------------------- */
 
+.chart-intro {
+    max-width: 800px;
+    margin: 25px auto;
+}
+
+.smartphone-message {
+    width: 300px;
+    color: darkred;
+}
+
 /* OVERLAY CHART */
 #overlay-chart-container {
     width: 100%;
@@ -395,26 +405,52 @@ text.legend {
 
 
 /* SCATTER CHARTS */
-.scatter-chart-container {
-    width: 600px;
-    margin: 20px 0;
+#scatter-chart-master-container {
+    width: 100%;
+    padding-top: 25px;
+}
+
+#scatter-chart-container {
+    width: 800px;
+    margin: 20px auto;
+    /*display: flex;*/
+    /*align-items: center;*/
+    /*margin: 20px 0;*/
     /*float: right*/
+}
+
+#scatter-chart-container svg {
+    margin: auto;
+}
+
+/* styles for tablet and above */
+@media (min-width: 768px) {
+    #scatter-chart {
+        margin-left: 50px;
+    }
 }
 
 
 /* PIE CHARTS */
 
+#pie-chart-master-container {
+    width: 100%;
+    padding-top: 25px;
+}
+
 #pie-chart-container {
-    width: 660px;
-    height: 600px;
-    margin: 20px 0;
-    padding-top: 50px;
+    max-width: 700px;
+    /*min-width: 600px;*/
+    height: 400px;
+    margin: 20px auto;
+    /*padding-top: 50px;*/
     /*border: 1px solid black;*/
 }
 
 #sd-pie-chart {
     width: 320px;
     height: 350px;
+    padding: 0 20px;
     position: absolute;
     float: left;
     /*border: 1px solid black;*/
@@ -423,6 +459,7 @@ text.legend {
 #tj-pie-chart {
     width: 320px;
     height: 350px;
+    padding: 0 20px;
     position: relative;
     float: right;
     /*border: 1px solid black;*/
@@ -436,6 +473,13 @@ p.chart-label {
 
 .pie-label {
     font-size: 14px;
+}
+
+.city-label {
+    text-align: center;
+    /*padding: 0 20px;*/
+    margin: 0 20px 0 0;
+    font-weight: 500;
 }
 
 

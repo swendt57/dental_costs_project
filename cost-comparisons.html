@@ -83,26 +83,30 @@
 
     <h3>Comparisons</h3>
 
-    <p>Please use landscape mode for best viewing on your smartphone</p>
+   <p class="smartphone-message"></p>  <!--placeholder for small screen users switch to landscape-->
 
     <div id="overlay-chart-container">
-        <p>This chart shows the average cost of five basic dental procedures in both San Diego and Tijuana (in US
+        <p class="chart-intro">This chart shows the average cost of five basic dental procedures in both San Diego and Tijuana (in US
             dollars).</p>
         <div id="overlay-bar-chart"></div>
     </div>
 
-    <div id="scatter-chart-container">
-        <p>Chart showing the cost per procedure distribution for all dental offices</p>
-        <div id="distribution-chart"></div>
+    <div id="scatter-chart-master-container">
+        <p class="chart-intro">This chart shows the cost per procedure distribution for all dental offices in US dollars</p>
+        <div id="scatter-chart-container">
+            <div id="scatter-chart"></div>
+        </div>
     </div>
 
-    <div id="pie-chart-container">
-        <p>Percent of dental offices [from the Most Affordable lists] willing to provide actual data. Mock data was
-            generated for those offices not willing to provide figures. Note that Tijuana offices are more open with their
-            pricing.</p>
-        <!--<div id="legend"></div>-->
-        <div id="sd-pie-chart"></div>
-        <div id="tj-pie-chart"></div>
+    <div id="pie-chart-master-container">
+        <p class="smartphone-message"></p>  <!--placeholder for small screen users switch to landscape-->
+        <p class="chart-intro">These pie charts show the percent of dental offices [from the Most Affordable lists] willing to provide actual data. Mock data was
+            generated for those offices unwilling to give estimates. Note that the Tijuana dental offices are <strong>much</strong> more open with
+            their pricing.</p>
+        <div id="pie-chart-container">
+            <div id="sd-pie-chart"><p class="city-label">San Diego</p></div>
+            <div id="tj-pie-chart"><p class="city-label">Tijuana</p></div>
+        </div>
     </div>
 
 </section>

@@ -4,6 +4,10 @@ queue()
     .defer(d3.json, "assets/data/combined_flat.json")
     .await(function makeGraphs(error, allData) {
 
+    if(windowWidth <= 400) {
+        $(".smartphone-message").html(`<strong>NOTE:</strong> Please use landscape mode for best viewing on your smartphone`);
+    }
+
     //OVERLAY CHART****************************************************************
 
     let width = 400;
@@ -22,11 +26,6 @@ queue()
             bottom: 30,
             left: 40
         };
-
-    // let width = 400; //- margin.left - margin.right;
-    // let height = 500; //- margin.top - margin.bottom
-        // width - margin.left - margin.right,
-        // height = 500 - margin.top - margin.bottom;
 
     let x = d3.scale.ordinal()
         .rangeRoundBands([0, width], .1);
@@ -122,10 +121,8 @@ queue()
         .attr("y", function(d) { return y(d.tj_average) + 5; })
         .attr("dy", ".75em")
         .text(function(d) { return `$${d.tj_average}`; });
-        // .on("mouseover", toggleColor)
-        // .on("mouseleave", toggleColor);;
 
-        const legspacing = 25;
+        const legendSpacing = 25;
         let rectClasses = ["sdBar", "tjBar"];
         let labels = ["San Diego", "Tijuana"];
         let colors = d3.scale.ordinal()
@@ -144,7 +141,7 @@ queue()
             .attr("width", 20)
             .attr("height", 20)
             .attr("y", function (d, i) {
-                return i * legspacing + 20;
+                return i * legendSpacing + 20;
             })
             .attr("x", 50);
 
@@ -153,7 +150,7 @@ queue()
                 return "legend " + labels[i]
             }) //NOT WORKING AS HOPED
             .attr("y", function (d, i) {
-                return i * legspacing + 32;
+                return i * legendSpacing + 32;
             })
             .attr("x", 75)
             .attr("text-anchor", "start")
@@ -199,6 +196,14 @@ queue()
 
     //SCATTER CHART********************************************************************************
 
+    width = 650;
+    height = 600;
+
+    if(windowWidth >= 768) {
+        width = 700;
+        height = 700;
+    }
+
     let ndx = crossfilter(allData);
 
     let proc_dim = ndx.dimension(dc.pluck('procedure'));
@@ -211,11 +216,11 @@ queue()
         return [d.cost];
     });
 
-    let scatter_chart = dc.scatterPlot('#distribution-chart');
+    let scatter_chart = dc.scatterPlot('#scatter-chart');
 
     scatter_chart
-        .width(670)
-        .height(700)
+        .width(width)
+        .height(height)
         .dimension(proc_dim)
         .x(d3.scale.ordinal())
         .xUnits(dc.units.ordinal)
@@ -223,7 +228,7 @@ queue()
         .brushOn(false)
         .symbolSize(8)
         .clipPadding(10)
-        .xAxisLabel("Procedure")
+        // .xAxisLabel("Procedure")
         .yAxisLabel("Cost")
         // .legend(dc.legend().x(80).y(20).itemHeight(13).gap(5))
         .renderHorizontalGridLines(true)
@@ -237,9 +242,19 @@ queue()
 
     //PIE CHARTS ***************************************************
 
+    width = 275;
+    height = 300;
+
+    if(windowWidth >= 768) {
+        width = 320;
+        height = 350;
+    }
+
     let dataByCity = sortDataByCity(allData);
     // let sdData = dataByCity[0];
     // let tjData = dataByCity[1];
+
+    //San Diego
 
     let sdData = [{"label":"Actual Data", "value":10},
         {"label":"Mock Data", "value":90}];
@@ -252,8 +267,8 @@ queue()
 
     svg = d3.select('#sd-pie-chart')
         .append('svg')
-        .attr("width", svg.width)
-        .attr("height", svg.height)
+        .attr("width", width)
+        .attr("height", height)
         .attr('viewBox','260 35 350 350');
 
     let arc = d3.svg.arc()
@@ -273,7 +288,9 @@ queue()
         .data(pie(sdData))
         .enter()
         .append('g')
-        .attr('class',"arc");
+        .attr('class',"arc")
+        .attr("stroke", "black")
+        .style("stroke-width", "1px");
 
     renderarcs.append('path')
         .attr('d',arc)
@@ -298,14 +315,15 @@ queue()
         })
         .attr("text-anchor", "top")
         .text(function(d, i){ return labels[i]; })
-        .attr("class", "pie-label");
+        .attr("class", "pie-label")
+        .style("stroke-width", "0");
 
     //Tijuana
 
     svg = d3.select('#tj-pie-chart')
         .append('svg')
-        .attr("width", svg.width)
-        .attr("height", svg.height)
+        .attr("width", width)
+        .attr("height", height)
         .attr('viewBox','260 35 350 350');
 
     arc = d3.svg.arc()
@@ -325,7 +343,9 @@ queue()
         .data(pie(tjData))
         .enter()
         .append('g')
-        .attr('class',"arc");
+        .attr('class',"arc")
+        .attr("stroke", "black")
+        .style("stroke-width", "1px");
 
     renderarcs.append('path')
         .attr('d',arc)
@@ -350,27 +370,11 @@ queue()
         })
         .attr("text-anchor", "top")
         .text(function(d, i){ return labels[i]; })
-        .attr("class", "pie-label");;
+        .attr("class", "pie-label")
+        .style("stroke-width", "0");
 
 
-
-    // let tjNdx = crossfilter(tjData);
-    //
-    // let tj_fake_dim = tjNdx.dimension(dc.pluck('fake_data'));
-    //
-    // let tj_fakeCount = tj_fake_dim.group().reduceCount();
-    //
-    // dc.pieChart('#tj-pie-chart')
-    //     .height(225)
-    //     .radius(90)
-    //     .innerRadius(25)
-    //     .transitionDuration(1500)
-    //     .dimension(tj_fake_dim)
-    //     .group(tj_fakeCount)
-    //     .renderLabel(true);
-
-
-    dc.renderAll();
+    dc.renderAll(); //currently this only renders the scatter chart
 
 
     });
