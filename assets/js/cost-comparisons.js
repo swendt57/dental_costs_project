@@ -1,3 +1,4 @@
+let windowWidth = $(window).width();
 
 queue()
     .defer(d3.json, "assets/data/combined_flat.json")
@@ -5,14 +6,27 @@ queue()
 
     //OVERLAY CHART****************************************************************
 
+    let width = 400;
+    let height = 500;
+
+    let barLabelOffset = 20;
+
+    if(windowWidth >= 768) {
+        width = 600;
+        barLabelOffset = 40;
+    }
+
     let margin = {
             top: 20,
             right: 20,
             bottom: 30,
             left: 40
-        },
-        width = 500 - margin.left - margin.right,
-        height = 500 - margin.top - margin.bottom;
+        };
+
+    // let width = 400; //- margin.left - margin.right;
+    // let height = 500; //- margin.top - margin.bottom
+        // width - margin.left - margin.right,
+        // height = 500 - margin.top - margin.bottom;
 
     let x = d3.scale.ordinal()
         .rangeRoundBands([0, width], .1);
@@ -94,7 +108,7 @@ queue()
         .enter()
         .append("text")
         .attr("class", "label sdBar")
-        .attr("x", (function(d) { return x(d.procedure) + 38; }  ))
+        .attr("x", (function(d) { return x(d.procedure) + barLabelOffset; }  ))
         .attr("y", function(d) { return y(d.sd_average) + 3; })
         .attr("dy", ".75em")
         .text(function(d) { return `$${d.sd_average}`; });
@@ -104,7 +118,7 @@ queue()
         .enter()
         .append("text")
         .attr("class", "label tjBar")
-        .attr("x", (function(d) { return x(d.procedure) + 38; }  ))
+        .attr("x", (function(d) { return x(d.procedure) + barLabelOffset; }  ))
         .attr("y", function(d) { return y(d.tj_average) + 5; })
         .attr("dy", ".75em")
         .text(function(d) { return `$${d.tj_average}`; });
@@ -224,44 +238,136 @@ queue()
     //PIE CHARTS ***************************************************
 
     let dataByCity = sortDataByCity(allData);
-    let sdData = dataByCity[0];
-    let tjData = dataByCity[1];
+    // let sdData = dataByCity[0];
+    // let tjData = dataByCity[1];
 
-    let sdNdx = crossfilter(sdData);
+    let sdData = [{"label":"Actual Data", "value":10},
+        {"label":"Mock Data", "value":90}];
+    let tjData = [{"label":"Actual Data", "value":80},
+        {"label":"Mock Data", "value":20}];
 
-    let sd_fake_dim = sdNdx.dimension(dc.pluck('fake_data'));
+    let pieColors = ["green", "blue"];
+    let colorscale = d3.scale.linear().domain([0,sdData.length]).range(pieColors);
+    labels = ["Actual Data", "Mock Data"];
 
-    let sd_fakeCount = sd_fake_dim.group().reduceCount(function() {
-        if(d.fake_data === "*") {
-            return d++;
-        }
-    });
+    svg = d3.select('#sd-pie-chart')
+        .append('svg')
+        .attr("width", svg.width)
+        .attr("height", svg.height)
+        .attr('viewBox','260 35 350 350');
 
-    dc.pieChart('#sd-pie-chart')
-        .height(225)
-        .radius(90)
-        .transitionDuration(1500)
-        .dimension(sd_fake_dim)
-        .group(sd_fakeCount)
-    // .legend(dc.legend().x(400).y(10).itemHeight(13).gap(5))
-    // .legend(dc.legendText("yankee"));
+    let arc = d3.svg.arc()
+        .innerRadius(0)
+        .outerRadius(100);
 
-    let tjNdx = crossfilter(tjData);
+    let arcOver = d3.svg.arc()
+        .innerRadius(0)
+        .outerRadius(150);
 
-    let tj_fake_dim = tjNdx.dimension(dc.pluck('fake_data'));
+    let pie = d3.layout.pie()
+        .value(function(d){ return d.value; });
 
-    let tj_fakeCount = tj_fake_dim.group().reduceCount(function() {
-        if(d.fake_data === "*") {
-            return d++;
-        }
-    });
+    let renderarcs = svg.append('g')
+        .attr('transform','translate(440,200)')
+        .selectAll('.arc')
+        .data(pie(sdData))
+        .enter()
+        .append('g')
+        .attr('class',"arc");
 
-    dc.pieChart('#tj-pie-chart')
-        .height(225)
-        .radius(90)
-        .transitionDuration(1500)
-        .dimension(tj_fake_dim)
-        .group(tj_fakeCount);
+    renderarcs.append('path')
+        .attr('d',arc)
+        .attr('fill',function(d,i){ return colorscale(i); })
+        .on("mouseover", function(d) {
+            d3.select(this).transition()
+                .duration(1000)
+                .attr("d", arcOver)
+                .style('opacity', .7);
+        })
+        .on("mouseout", function(d) {
+            d3.select(this).transition()
+                .duration(1000)
+                .attr("d", arc)
+                .style('opacity', 1);
+        });
+
+    renderarcs.append('text')
+        .attr("transform", function(d) {
+            var c = arc.centroid(d);
+            return "translate(" + c[0]*4.5 +"," + c[1]*2.5 + ")";
+        })
+        .attr("text-anchor", "top")
+        .text(function(d, i){ return labels[i]; })
+        .attr("class", "pie-label");
+
+    //Tijuana
+
+    svg = d3.select('#tj-pie-chart')
+        .append('svg')
+        .attr("width", svg.width)
+        .attr("height", svg.height)
+        .attr('viewBox','260 35 350 350');
+
+    arc = d3.svg.arc()
+        .innerRadius(0)
+        .outerRadius(100);
+
+    arcOver = d3.svg.arc()
+        .innerRadius(0)
+        .outerRadius(150);
+
+    pie = d3.layout.pie()
+        .value(function(d){ return d.value; });
+
+    renderarcs = svg.append('g')
+        .attr('transform','translate(440,200)')
+        .selectAll('.arc')
+        .data(pie(tjData))
+        .enter()
+        .append('g')
+        .attr('class',"arc");
+
+    renderarcs.append('path')
+        .attr('d',arc)
+        .attr('fill',function(d,i){ return colorscale(i); })
+        .on("mouseover", function(d) {
+            d3.select(this).transition()
+                .duration(1000)
+                .attr("d", arcOver)
+                .style('opacity', .7);
+        })
+        .on("mouseout", function(d) {
+            d3.select(this).transition()
+                .duration(1000)
+                .attr("d", arc)
+                .style('opacity', 1);
+        });
+
+    renderarcs.append('text')
+        .attr("transform", function(d) {
+            var c = arc.centroid(d);
+            return "translate(" + c[0]*3.0 +"," + c[1]*2.7 + ")";
+        })
+        .attr("text-anchor", "top")
+        .text(function(d, i){ return labels[i]; })
+        .attr("class", "pie-label");;
+
+
+
+    // let tjNdx = crossfilter(tjData);
+    //
+    // let tj_fake_dim = tjNdx.dimension(dc.pluck('fake_data'));
+    //
+    // let tj_fakeCount = tj_fake_dim.group().reduceCount();
+    //
+    // dc.pieChart('#tj-pie-chart')
+    //     .height(225)
+    //     .radius(90)
+    //     .innerRadius(25)
+    //     .transitionDuration(1500)
+    //     .dimension(tj_fake_dim)
+    //     .group(tj_fakeCount)
+    //     .renderLabel(true);
 
 
     dc.renderAll();

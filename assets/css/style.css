@@ -330,37 +330,17 @@ div>h4 {
 }
 
 /* --------------------Comparisons-------------------- */
-.chart-container {
-    /*margin-left: 50px;*/
-    margin: 20px 0;
-}
-
-#sd-pie-chart {
-    height: 300px;
-    width: 350px;
-    position: absolute;
-    left: 25px;
-    float: left;
-    margin-right: 50px;
-}
-
-#tj-pie-chart {
-    height: 300px;
-    width: 350px;
-    display: block;
-    position: relative;
-    float: right;
-}
-
-p.chart-label {
-    margin: 10px;
-    padding: 0;
-    text-align: center;
-}
 
 /* OVERLAY CHART */
-#overlay-container {
-    width: 600px;
+#overlay-chart-container {
+    width: 100%;
+    /*margin: 25px auto;*/
+
+    /*float: left;*/
+}
+
+#overlay-chart-container svg {
+    margin: auto;
 }
 
 .sdBar {
@@ -392,12 +372,10 @@ text.label {
     fill: black;
     font-size: 12px;
     font-weight: 500;
-    text-anchor: middle;
+    /*text-align: center;*/
+    /*text-anchor: middle;*/
 }
 
-text.label.bar1Color {
-    fill: red;
-}
 
 text.legend {
     text-align: left;
@@ -406,12 +384,59 @@ text.legend {
     font-weight: 500;
 }
 
+/* styles for tablet and above */
+@media (min-width: 768px) {
+    #overlay-bar-chart {
+        display: flex;
+        align-items: center;
+    }
+}
+
 
 
 /* SCATTER CHARTS */
+.scatter-chart-container {
+    width: 600px;
+    margin: 20px 0;
+    /*float: right*/
+}
 
 
 /* PIE CHARTS */
+
+#pie-chart-container {
+    width: 660px;
+    height: 600px;
+    margin: 20px 0;
+    padding-top: 50px;
+    /*border: 1px solid black;*/
+}
+
+#sd-pie-chart {
+    width: 320px;
+    height: 350px;
+    position: absolute;
+    float: left;
+    /*border: 1px solid black;*/
+}
+
+#tj-pie-chart {
+    width: 320px;
+    height: 350px;
+    position: relative;
+    float: right;
+    /*border: 1px solid black;*/
+}
+
+p.chart-label {
+    margin: 10px;
+    padding: 0;
+    text-align: center;
+}
+
+.pie-label {
+    font-size: 14px;
+}
 
 
 /* --------------------Maps-------------------- */

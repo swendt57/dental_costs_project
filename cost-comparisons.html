@@ -6,10 +6,8 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
-          integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/dc/2.1.8/dc.min.css"/>
     <link rel="stylesheet" href="assets/css/style.css">
 
@@ -19,23 +17,7 @@
         }
     </style>
 
-    <!--<style>-->
-    <!--/*#legend {*/-->
-    <!--/*padding: 1.5em 0 0 1.5em;*/-->
-    <!--/*}*/-->
-
-    <!--/*li.key {*/-->
-    <!--/*border-top-width: 15px;*/-->
-    <!--/*border-top-style: solid;*/-->
-    <!--/*font-size: .75em;*/-->
-    <!--/*width: 10%;*/-->
-    <!--/*padding-left: 0;*/-->
-    <!--/*padding-right: 0;*/-->
-    <!--/*}*/-->
-    <!--</style>-->
-
-    <script src="https://code.jquery.com/jquery-3.4.1.js"
-            integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crossfilter/1.3.12/crossfilter.min.js"></script>
@@ -68,7 +50,7 @@
                     aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <!--TODO toggler not opening/closing drop-down-->
+
             <div class="collapse navbar-collapse" id="navbarToggler">
 
                 <!-- INFO this needs to be here in order to have the buttons right justified - there has to be a better way -->
@@ -103,35 +85,35 @@
 
     <p>Please use landscape mode for best viewing on your smartphone</p>
 
-    <div id="overlay-container">
-        <p>This chart shows the average cost of five basic dental procedures in both San Diego and Tijuana (US
+    <div id="overlay-chart-container">
+        <p>This chart shows the average cost of five basic dental procedures in both San Diego and Tijuana (in US
             dollars).</p>
         <div id="overlay-bar-chart"></div>
     </div>
 
-    <p>Chart showing the cost per procedure distribution for all dental offices</p>
-    <div id="distribution-chart"></div>
+    <div id="scatter-chart-container">
+        <p>Chart showing the cost per procedure distribution for all dental offices</p>
+        <div id="distribution-chart"></div>
+    </div>
 
-    <div class="chart-container">
-        <br>
+    <div id="pie-chart-container">
         <p>Percent of dental offices [from the Most Affordable lists] willing to provide actual data. Mock data was
-            generated
-            for those offices not willing to provide figures. Note that Tijuana offices are more open with their
+            generated for those offices not willing to provide figures. Note that Tijuana offices are more open with their
             pricing.</p>
-        <div id="legend"></div>
-        <div id="sd-pie-chart"><p class="chart-label">San Diego</p></div>
-        <div id="tj-pie-chart"><p class="chart-label">Tijuana</p></div>
+        <!--<div id="legend"></div>-->
+        <div id="sd-pie-chart"></div>
+        <div id="tj-pie-chart"></div>
     </div>
 
 </section>
 
+<footer>
+    <hr class="footer-hr">
+    <p class="footer-text">Map data is &copy;2019 by Google &mdash; Top 10 lists are &copy;2019 Yelp Inc.</p>
+</footer>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
 </body>
 </html>
