@@ -41,6 +41,12 @@ https://github.com/swendt57/dental_costs_project/tree/master/support/mockups
 
 * Add a Tips and Tricks section for crossing back and forth across the international border 
 * A user experience section where users can provide concerns and/or helpful information
+* Improve the middle chart on the Cost Comparisons page. I would like to add 
+  * The dentist name to the tooltip
+  * Have a different dot color for each city
+  * Add a zoom function
+  * Allow the user to filter the data on the dentist
+  * Explore the possibility of using the dentists on the x axis with the procedure in the tool tip. Might be a better look.
 
 ### Technologies Used
 
@@ -107,12 +113,28 @@ The page must be reloaded for the addresses to appear and disappear for differen
 
 Cost Comparisons
 1. Go to Cost Comparisons page.
-2.  **LOTS MORE HERE!!!!!!!!!!!**
+2. Verify that three charts display.
+3. Verify that the charts shrink somewhat for smaller screens. The page must be reloaded for the charts to change size.
+4. Verify that on small screens in portrait mode a message recommending landscape mode appears. The page must be reloaded 
+for this message to appear and disappear.
+5. On the top chart:
+  * verify that all five procedures are displayed.
+  * verify that rolling over the legend highlight the bars for that city.
+  * verify that rolling over either the bar or the overlay bar highlight the other bars for that city.
+  * verify that the chart 
+6. On the center chart:
+  * verify that all five procedures are displayed.
+  * verify that all five procedures are displayed.
+  * verify that the tooltips show the procedure and cost.
+7. On the pie charts:
+  * verify that there is one chart for each city.
+  * verify that the labels are not cut off.
+  * verify that when you roll over a wedge that it increases in size.
 
 Location Maps
 1. Go to Location Maps page.
 2. Verify that there are two maps, one each for San Diego and Tiuana.
-3. Verify that each map shows 10 locations.
+3. Verify that each map shows 10 locations with a legend below.
 4. Verify that the maps are side by side on larger screens.
 
 **Manual testing** was performed on: 
@@ -136,6 +158,8 @@ the problem.
 
 ### Deployment
 
+Coming soon !
+
 ### Credits
 
 #### Content
@@ -157,3 +181,4 @@ the problem.
 * Hannah Recht from https://bl.ocks.org/hrecht for chart legend examples
 * Kiran from https://bl.ocks.org/kiranml1 for a sample D3 pie chart
 * https://webdesign.tutsplus.com/tutorials/svg-viewport-and-viewbox-for-beginners--cms-30844 for ViewPort and ViewBox explanations
+* Used https://www.latlong.net to look up latitude and longitudes fro mapping functions
