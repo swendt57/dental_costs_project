@@ -558,6 +558,11 @@ p.chart-label {
         width: 550px;
         float: right;
     }
+
+    .map-key {
+        width: 500px;
+        margin: 25px auto;
+    }
 }
 
 /* --------------------Footer-------------------- */
