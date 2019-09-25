@@ -251,15 +251,16 @@ queue()
     }
 
     let dataByCity = sortDataByCity(allData);
-    // let sdData = dataByCity[0];
-    // let tjData = dataByCity[1];
+    let mockDataByCity = determineMockDataTotals(dataByCity);
+    let sdData = mockDataByCity[0];
+    let tjData = mockDataByCity[1];
 
     //San Diego
 
-    let sdData = [{"label":"Actual Data", "value":10},
-        {"label":"Mock Data", "value":90}];
-    let tjData = [{"label":"Actual Data", "value":80},
-        {"label":"Mock Data", "value":20}];
+    // let sdData = [{"label":"Actual Data", "value":10},
+    //     {"label":"Mock Data", "value":90}];
+    // let tjData = [{"label":"Actual Data", "value":80},
+    //     {"label":"Mock Data", "value":20}];
 
     let pieColors = ["green", "blue"];
     let colorscale = d3.scale.linear().domain([0,sdData.length]).range(pieColors);
@@ -430,36 +431,25 @@ function sortDataByCity(allData) {
             tjData.push(allData[i]);
         }
     }
-
+    console.log([sdData, tjData]);
     return [sdData, tjData];
 }
 
-// //Scatter chart BLUE DOTS
-// let ndx = crossfilter(bothData);
-//
-// let proc_dim = ndx.dimension(dc.pluck('procedure'));
-//
-// let cost_dim = ndx.dimension(function(d) {
-//     return [d.procedure, d.cost, d.city];// return [d.city, d.procedure, d.cost]; //this adds the city to the array you were looking at
-// });
-//
-// let cost_group = cost_dim.group().reduceSum(dc.pluck('cost')); //blue dot
-//
-// let scatter_chart = dc.scatterPlot('#distribution-chart'); //blue dots
-//
-// scatter_chart
-//     .width(670)
-//     .height(500)
-//     .dimension(proc_dim)
-//     .x(d3.scale.ordinal())
-//     .xUnits(dc.units.ordinal)
-//     .y(d3.scale.linear().domain([0, 1200]))
-//     .brushOn(false) //blue
-//     .symbolSize(8) //blue
-//     .clipPadding(10) //blue
-//     .xAxisLabel("Procedure")
-//     .yAxisLabel("Cost")
-//     // .legend(dc.legend().x(80).y(20).itemHeight(13).gap(5))
-//     .renderHorizontalGridLines(true)
-//     .group(cost_group); //blue dots
+function determineMockDataTotals(dataByCity) {
+    let mockData = [[{"label": "Actual Data", "value": 0}, {"label": "Mock Data", "value": 0}],
+                    [{"label": "Actual Data", "value": 0}, {"label": "Mock Data", "value": 0}]];
+
+    for (let cd = 0; cd < 2; cd++) {
+        for (let i = 0; i < dataByCity[cd].length; i++) {
+            if (dataByCity[cd][i].fake_data === "Actual Data") {
+                mockData[cd][0].value++;
+            } else {
+                mockData[cd][1].value++;
+            }
+        }
+    }
+
+    return mockData;
+}
+
 
