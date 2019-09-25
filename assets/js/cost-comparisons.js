@@ -196,12 +196,12 @@ queue()
 
     //SCATTER CHART********************************************************************************
 
-    width = 650;
+    width = 600;
     height = 600;
 
     if(windowWidth >= 768) {
-        width = 700;
-        height = 700;
+        width = 650;
+        height = 650;
     }
 
     let ndx = crossfilter(allData);
@@ -209,7 +209,7 @@ queue()
     let proc_dim = ndx.dimension(dc.pluck('procedure'));
 
     let cost_dim = ndx.dimension(function(d) {
-        return [d.procedure, d.cost, d.city];
+        return [d.procedure, d.cost, d.name];
     });
 
     let cost_group = cost_dim.group().reduceSum(function(d) {
@@ -256,11 +256,6 @@ queue()
     let tjData = mockDataByCity[1];
 
     //San Diego
-
-    // let sdData = [{"label":"Actual Data", "value":10},
-    //     {"label":"Mock Data", "value":90}];
-    // let tjData = [{"label":"Actual Data", "value":80},
-    //     {"label":"Mock Data", "value":20}];
 
     let pieColors = ["green", "blue"];
     let colorscale = d3.scale.linear().domain([0,sdData.length]).range(pieColors);
@@ -367,7 +362,7 @@ queue()
     renderarcs.append('text')
         .attr("transform", function(d) {
             var c = arc.centroid(d);
-            return "translate(" + c[0]*3.0 +"," + c[1]*2.7 + ")";
+            return "translate(" + c[0]*2.0 +"," + c[1]*4.0 + ")";
         })
         .attr("text-anchor", "top")
         .text(function(d, i){ return labels[i]; })
