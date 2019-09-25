@@ -411,12 +411,8 @@ text.legend {
 }
 
 #scatter-chart-container {
-    width: 800px;
+    width: 600px;
     margin: 20px auto;
-    /*display: flex;*/
-    /*align-items: center;*/
-    /*margin: 20px 0;*/
-    /*float: right*/
 }
 
 #scatter-chart-container svg {
@@ -430,6 +426,14 @@ text.legend {
     }
 }
 
+/* styles for tablet and above */
+@media (min-width: 768px) {
+    #scatter-chart-container {
+        width: 750px;
+        margin: 20px auto;
+    }
+}
+
 
 /* PIE CHARTS */
 
@@ -440,11 +444,8 @@ text.legend {
 
 #pie-chart-container {
     max-width: 700px;
-    /*min-width: 600px;*/
     height: 400px;
     margin: 20px auto;
-    /*padding-top: 50px;*/
-    /*border: 1px solid black;*/
 }
 
 #sd-pie-chart {
@@ -453,7 +454,6 @@ text.legend {
     padding: 0 20px;
     position: absolute;
     float: left;
-    /*border: 1px solid black;*/
 }
 
 #tj-pie-chart {
@@ -462,7 +462,6 @@ text.legend {
     padding: 0 20px;
     position: relative;
     float: right;
-    /*border: 1px solid black;*/
 }
 
 p.chart-label {
@@ -477,7 +476,6 @@ p.chart-label {
 
 .city-label {
     text-align: center;
-    /*padding: 0 20px;*/
     margin: 0 20px 0 0;
     font-weight: 500;
 }
@@ -509,6 +507,11 @@ p.chart-label {
     margin: auto;
 }
 
+.map-container td {
+    padding: 0 5px;
+    font-size: .7rem;
+}
+
 
 
 /* styles for tablet */
@@ -531,6 +534,11 @@ p.chart-label {
 
     #tjMap-container {
         width: 550px;
+    }
+
+    .map-container td {
+        padding: 5px 10px;
+        font-size: 1rem;
     }
 
 }
