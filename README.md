@@ -101,6 +101,8 @@ I used Jasmine to test all functions that manipulated data including:
 * maps.js -- assembleCoordinates
 * cost-comparison.js -- assembleOverlayDataSet, sortDataByCity, and determineMockDataTotals
 
+Automated tests can be run by clicking this link: https://swendt57.github.io/dental_costs_project/tests/
+
 **Manual Testing**
 
 Top 10
@@ -113,7 +115,7 @@ The page must be reloaded for the addresses to appear and disappear for differen
 
 Cost Comparisons
 1. Go to Cost Comparisons page.
-2. Verify that three charts display.
+2. Verify that three chart sections display (four charts in total).
 3. Verify that the charts shrink somewhat for smaller screens. The page must be reloaded for the charts to change size.
 4. Verify that on small screens in portrait mode a message recommending landscape mode appears. The page must be reloaded 
 for this message to appear and disappear.
@@ -158,7 +160,14 @@ the problem.
 
 ### Deployment
 
-Coming soon !
+The website is currently deployed on GitHub Pages. 
+1. If not already present, add the key file, ak.js, to assets/js. 
+2. If not already done, the website base URL must be added to the Website Restrictions section of the Google Cloud Platform 
+APIs and Services area. This helps to reduce non-authorized use of the API key.
+3. Go to https://github.com/swendt57/dental_costs_project and click the Settings link.
+4. In the GitHub pages section, verify that the code is being built from the Master Branch.
+5. In the GitHub pages section, wait for the message to read: " Your site is published at https://swendt57.github.io/dental_costs_project/"
+6. The site is now deployed.
 
 ### Credits
 
@@ -181,4 +190,4 @@ Coming soon !
 * Hannah Recht from https://bl.ocks.org/hrecht for chart legend examples
 * Kiran from https://bl.ocks.org/kiranml1 for a sample D3 pie chart
 * https://webdesign.tutsplus.com/tutorials/svg-viewport-and-viewbox-for-beginners--cms-30844 for ViewPort and ViewBox explanations
-* Used https://www.latlong.net to look up latitude and longitudes fro mapping functions
+* Used https://www.latlong.net to look up latitude and longitudes for mapping functions
