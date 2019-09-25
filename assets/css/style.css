@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Mouse+Memoirs|Lato:400,400i,700,700i|Roboto:300,400,500,600,700&display=swap');
 
+/* BS OR = Bootstrap Override */
+
 /*---------------General Styles---------------*/
 
 html, body {
@@ -63,7 +65,6 @@ p {
 
     section {
         padding-top: 120px;
-        /*width: 100%;*/
     }
 
     h3 {
@@ -80,7 +81,6 @@ p {
     left: 0;
     width: 100%;
     height: 75px;
-    /*background: #0097ac;*/
     background-image: linear-gradient(#0097ac, #007E8C);
     box-shadow: 1px 1px 4px 4px rgba(0,0,0,0.25);
     z-index: 1050;
@@ -108,44 +108,6 @@ p {
 
 .nav-text {
     font-size: 16px;
-}
-
-/* styles for tablet */
-@media (min-width: 768px) {
-    #header-bg {
-        height: 80px;
-        box-shadow: 1px 1px 4.5px 4.5px rgba(0,0,0,0.25);
-    }
-
-    .title {
-        font-size: 22px;
-    }
-    .sub-titlw {
-        font-size: 18px;
-    }
-
-    .nav-text {
-        font-size: 16px;
-    }
-}
-
-/* styles for desktop */
-@media (min-width: 992px) {
-    #header-bg {
-        height: 88px;
-        box-shadow: 1px 1px 5px 5px rgba(0,0,0,0.25);
-    }
-
-    .title {
-        font-size: 24px;
-    }
-    .sub-title {
-        font-size: 20px;
-    }
-
-    .nav-text {
-        font-size: 18px;
-    }
 }
 
 /* BS OR */
@@ -183,16 +145,54 @@ a.nav-link:hover {
     background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='black' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
 }
 
+/* styles for tablet */
+@media (min-width: 768px) {
+    #header-bg {
+        height: 80px;
+        box-shadow: 1px 1px 4.5px 4.5px rgba(0,0,0,0.25);
+    }
 
+    .title {
+        font-size: 22px;
+    }
+
+    .sub-titlw {
+        font-size: 18px;
+    }
+
+    .nav-text {
+        font-size: 16px;
+    }
+}
+
+/* styles for desktop */
+@media (min-width: 992px) {
+    #header-bg {
+        height: 88px;
+        box-shadow: 1px 1px 5px 5px rgba(0,0,0,0.25);
+    }
+
+    .title {
+        font-size: 24px;
+    }
+
+    .sub-title {
+        font-size: 20px;
+    }
+
+    .nav-text {
+        font-size: 18px;
+    }
+}
 
 /* --------------------Home Styles-------------------- */
+
 span i {
     color: #0097ac;
     vertical-align: text-top;
     float: left;
     padding: 10px 10px 5px 0;
 }
-
 
 /* --------------------Top 10 Styles-------------------- */
 .plainList {
@@ -240,7 +240,6 @@ div>h4 {
     background-image: url('../images/usa_flag.png');
     background-repeat: no-repeat;
     background-position: center;
-    -ms-background-size: cover;
     -o-background-size: cover;
     -moz-background-size: cover;
     -webkit-background-size: cover;
@@ -270,7 +269,6 @@ div>h4 {
     background-image: url('../images/mexico_flag.png');
     background-repeat: no-repeat;
     background-position: center;
-    -ms-background-size: cover;
     -o-background-size: cover;
     -moz-background-size: cover;
     -webkit-background-size: cover;
@@ -345,9 +343,6 @@ div>h4 {
 /* OVERLAY CHART */
 #overlay-chart-container {
     width: 100%;
-    /*margin: 25px auto;*/
-
-    /*float: left;*/
 }
 
 #overlay-chart-container svg {
@@ -383,10 +378,7 @@ text.label {
     fill: black;
     font-size: 12px;
     font-weight: 500;
-    /*text-align: center;*/
-    /*text-anchor: middle;*/
 }
-
 
 text.legend {
     text-align: left;
@@ -402,8 +394,6 @@ text.legend {
         align-items: center;
     }
 }
-
-
 
 /* SCATTER CHARTS */
 #scatter-chart-master-container {
@@ -422,19 +412,15 @@ text.legend {
 
 /* styles for tablet and above */
 @media (min-width: 768px) {
-    #scatter-chart {
-        margin-left: 50px;
-    }
-}
-
-/* styles for tablet and above */
-@media (min-width: 768px) {
     #scatter-chart-container {
         width: 750px;
         margin: 20px auto;
     }
-}
 
+    #scatter-chart {
+        margin-left: 50px;
+    }
+}
 
 /* PIE CHARTS */
 
@@ -483,16 +469,16 @@ p.chart-label {
 
 
 /* --------------------Maps-------------------- */
-/* MUST have this in order for map to display! */
+
 #sdMap {
-    min-height: 400px;
+    min-height: 400px; /* MUST have this in order for map to display! */
     width: 300px;
     margin: 10px auto;
     border: 1px solid black;
 }
 
 #tjMap {
-    min-height: 400px;
+    min-height: 400px; /* MUST have this in order for map to display! */
     width: 300px;
     margin: 10px auto;
     border: 1px solid black;
@@ -512,8 +498,6 @@ p.chart-label {
     padding: 0 5px;
     font-size: .7rem;
 }
-
-
 
 /* styles for tablet */
 @media (min-width: 768px) {
@@ -575,6 +559,7 @@ p.chart-label {
 }
 
 /* --------------------Footer-------------------- */
+
 footer {
     width: 100%;
     font-size: 12px;
