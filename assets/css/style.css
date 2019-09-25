@@ -92,17 +92,18 @@ p {
     font-family: "Lato", sans-serif;
     font-weight: 700;
     font-style: italic;
-
 }
 
 .title {
     font-size: 20px;
     letter-spacing: .04rem;
+    color: honeydew;
 }
 .sub-title {
     font-size: 16px;
     letter-spacing: .04rem;
     padding-top: -10px;
+    color: honeydew;
 }
 
 .nav-text {
@@ -149,7 +150,6 @@ p {
 
 /* BS OR */
 .navbar {
-    /*background: #0097ac;*/
     background-image: linear-gradient(#0097ac, #007E8C);
     z-index: 1100;
     padding: .25rem 1rem .5rem 1rem;
@@ -164,13 +164,14 @@ a.navbar-brand {
 }
 
 a.nav-link {
-    margin-right: 4px;
-    color: black;
+    margin-right: 4px;;
+    color: honeydew;
 }
 
 a.nav-link:hover {
-    /*background: rgba(255,255,255,.25);*/ /*yellow*/
-    background-image: linear-gradient(#0097ac, #007E8C);
+    background: rgba(0,0,0,.1);
+    /*background-image: linear-gradient(#0097ac, #007E8C);*/
+    /*background-image: linear-gradient(#0097ac, black);*/
     border-radius: 8px;
     color: #fbe22e;
 }
