@@ -33,7 +33,7 @@
 
             <a class="navbar-brand" href="index.html">
                 <span class="title">Dental Cost Information</span>
-                <!-- one or the other -->
+                <!-- one or the other depending on screen size -->
                 <div class="sub-title d-none d-md-block">San Diego, California vs Tijuana, Mexico</div>
                 <div class="sub-title d-xs-block d-md-none">San Diego vs Tijuana</div>
             </a>
@@ -76,14 +76,16 @@
 
     <h3>Comparisons</h3>
 
-   <p class="smartphone-message"></p>  <!--placeholder for small screen users switch to landscape-->
+    <p class="smartphone-message"></p>  <!--placeholder for small screen users switch to landscape-->
 
+    <!--Overlay Bar Chart-->
     <div id="overlay-chart-container">
         <p class="chart-intro">This chart shows the average cost of five basic dental procedures in both San Diego and Tijuana (in US
             dollars).</p>
         <div id="overlay-bar-chart"></div>
     </div>
 
+    <!--Scatter Chart-->
     <div id="scatter-chart-master-container">
         <p class="chart-intro">This chart shows the cost per procedure distribution for all dental offices in US dollars</p>
         <div id="scatter-chart-container">
@@ -91,6 +93,7 @@
         </div>
     </div>
 
+    <!--Pie Charts-->
     <div id="pie-chart-master-container">
         <p class="smartphone-message"></p>  <!--placeholder for small screen users switch to landscape-->
         <p class="chart-intro">These pie charts show the percent of dental offices [from the Most Affordable lists] willing to provide actual data. Mock data was
