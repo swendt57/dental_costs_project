@@ -132,8 +132,6 @@ a.nav-link {
 
 a.nav-link:hover {
     background: rgba(0,0,0,.1);
-    /*background-image: linear-gradient(#0097ac, #007E8C);*/
-    /*background-image: linear-gradient(#0097ac, black);*/
     border-radius: 8px;
     color: #fbe22e;
 }
@@ -141,8 +139,8 @@ a.nav-link:hover {
 /*BS OR*/
 .navbar-toggler {
     padding: 4px;
-    border: 2px solid black;
-    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='black' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+    border: 2px solid honeydew;
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='honeydew' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
 }
 
 /* styles for tablet */
