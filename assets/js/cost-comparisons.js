@@ -10,9 +10,10 @@ queue()
 
     //OVERLAY CHART****************************************************************
 
+    let overlayData = assembleOverlayDataSet(allData);
+
     let width = 400;
     let height = 500;
-
     let barLabelOffset = 20;
 
     if(windowWidth >= 768) {
@@ -20,18 +21,12 @@ queue()
         barLabelOffset = 40;
     }
 
-    let margin = {
-            top: 20,
-            right: 20,
-            bottom: 30,
-            left: 40
-        };
+    let margin = {top: 20, right: 20, bottom: 30, left: 40};
 
     let x = d3.scale.ordinal()
         .rangeRoundBands([0, width], .1);
     let y = d3.scale.linear()
         .range([height, 0]);
-
 
     let xAxis = d3.svg.axis()
         .scale(x)
@@ -46,82 +41,100 @@ queue()
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    let overlayData = assembleOverlayDataSet(allData);
+    setDomains(x, y);
 
-    x.domain(overlayData.map(function (d) {
-        return d.procedure;
-    }));
-    y.domain([0, Math.ceil(overlayData[4].sd_average/100)*100 ]); //SD crown is the most expensive procedure
+    appendAttributes(svg);
 
-    svg.append("g")
-        .attr("class", "x axis")
-        .attr("transform", "translate(0," + height + ")")
-        .call(xAxis);
+    createTheBars(svg);
 
-    svg.append("g")
-        .attr("class", "y axis")
-        .call(yAxis)
-        .append("text")
-        .attr("transform", "rotate(-90)")
-        .attr("y", 6)
-        .attr("dy", ".71em")
-        .style("text-anchor", "end")
-        .text("Values");
+    addBarLabels(svg);
 
-    let g = svg.selectAll(".bars")
-        .data(overlayData)
-        .enter().append("g");
+    addLegend(svg);
 
-    g.append("rect")
-        .attr("class", "sdBar")
-        .attr("x", function (d) {
-            return x(d.procedure) + 10; // center it
-        })
-        .attr("width", x.rangeBand() - 20) // make it slimmer
-        .attr("y", function (d) {
-            return y(d.sd_average);
-        })
-        .attr("height", function (d) {
-            return height - y(d.sd_average)
-        })
-        .on("mouseover", sdEnter)
-        .on("mouseleave", sdLeave);
 
-    g.append("rect")
-        .attr("class", "tjBar")
-        .attr("x", function (d) {
-            return x(d.procedure);
-        })
-        .attr("width", x.rangeBand())
-        .attr("y", function (d) {
-            return y(d.tj_average);
-        })
-        .attr("height", function (d) {
-            return height - y(d.tj_average)
-        })
-        .on("mouseover", tjEnter)
-        .on("mouseleave", tjLeave);
+    function setDomains(x, y) {
+        x.domain(overlayData.map(function (d) {
+            return d.procedure;
+        }));
+        y.domain([0, Math.ceil(overlayData[4].sd_average/100)*100 ]); //SD crown is the most expensive procedure
+    }
 
-    svg.selectAll(".text,sdBar")
-        .data(overlayData)
-        .enter()
-        .append("text")
-        .attr("class", "label sdBar")
-        .attr("x", (function(d) { return x(d.procedure) + barLabelOffset; }  ))
-        .attr("y", function(d) { return y(d.sd_average) + 3; })
-        .attr("dy", ".75em")
-        .text(function(d) { return `$${d.sd_average}`; });
+    function appendAttributes(svg) {
+        svg.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + height + ")")
+            .call(xAxis);
 
-    svg.selectAll(".text")
-        .data(overlayData)
-        .enter()
-        .append("text")
-        .attr("class", "label tjBar")
-        .attr("x", (function(d) { return x(d.procedure) + barLabelOffset; }  ))
-        .attr("y", function(d) { return y(d.tj_average) + 5; })
-        .attr("dy", ".75em")
-        .text(function(d) { return `$${d.tj_average}`; });
+        svg.append("g")
+            .attr("class", "y axis")
+            .call(yAxis)
+            .append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 6)
+            .attr("dy", ".71em")
+            .style("text-anchor", "end")
+            .text("Values");
+    }
 
+    function createTheBars(svg) {
+        let g = svg.selectAll(".bars")
+            .data(overlayData)
+            .enter().append("g");
+
+        g.append("rect")
+            .attr("class", "sdBar")
+            .attr("x", function (d) {
+                return x(d.procedure) + 10; // center it
+            })
+            .attr("width", x.rangeBand() - 20) // make it slimmer
+            .attr("y", function (d) {
+                return y(d.sd_average);
+            })
+            .attr("height", function (d) {
+                return height - y(d.sd_average)
+            })
+            .on("mouseover", sdHighlightOn)
+            .on("mouseleave", sdHighlightOff);
+
+        g.append("rect")
+            .attr("class", "tjBar")
+            .attr("x", function (d) {
+                return x(d.procedure);
+            })
+            .attr("width", x.rangeBand())
+            .attr("y", function (d) {
+                return y(d.tj_average);
+            })
+            .attr("height", function (d) {
+                return height - y(d.tj_average)
+            })
+            .on("mouseover", tjHighlightOn)
+            .on("mouseleave", tjHighlightOff);
+    }
+
+    function addBarLabels(svg) {
+        svg.selectAll(".text")
+            .data(overlayData)
+            .enter()
+            .append("text")
+            .attr("class", "label sdBar")
+            .attr("x", (function(d) { return x(d.procedure) + barLabelOffset; }  ))
+            .attr("y", function(d) { return y(d.sd_average) + 3; })
+            .attr("dy", ".75em")
+            .text(function(d) { return `$${d.sd_average}`; });
+
+        svg.selectAll(".text")
+            .data(overlayData)
+            .enter()
+            .append("text")
+            .attr("class", "label tjBar")
+            .attr("x", (function(d) { return x(d.procedure) + barLabelOffset; }  ))
+            .attr("y", function(d) { return y(d.tj_average) + 5; })
+            .attr("dy", ".75em")
+            .text(function(d) { return `$${d.tj_average}`; });
+    }
+
+    function addLegend(svg) {
         const legendSpacing = 25;
         let rectClasses = ["sdBar", "tjBar"];
         let labels = ["San Diego", "Tijuana"];
@@ -148,7 +161,7 @@ queue()
         legend.append("text")
             .attr("class", function(d, i) {
                 return "legend " + labels[i]
-            }) //NOT WORKING AS HOPED
+            })
             .attr("y", function (d, i) {
                 return i * legendSpacing + 32;
             })
@@ -158,38 +171,34 @@ queue()
                 return labels[i];
             });
         legend.select("text.legend.San.Diego")
-            .on("mouseover", sdEnter)
-            .on("mouseleave", sdLeave);
+            .on("mouseover", sdHighlightOn)
+            .on("mouseleave", sdHighlightOff);
         legend.select("text.legend.Tijuana")
-            .on("mouseover", tjEnter)
-            .on("mouseleave", tjLeave);
+            .on("mouseover", tjHighlightOn)
+            .on("mouseleave", tjHighlightOff);
         legend.select("rect.sdBar")
-            .on("mouseover", sdEnter)
-            .on("mouseleave", sdLeave)
+            .on("mouseover", sdHighlightOn)
+            .on("mouseleave", sdHighlightOff)
         legend.select("rect.tjBar")
-            .on("mouseover", tjEnter)
-            .on("mouseleave", tjLeave);;
+            .on("mouseover", tjHighlightOn)
+            .on("mouseleave", tjHighlightOff);;
 
-    function type(d) {
-        d.sd_average = +d.sd_average;
-        d.tj_average = +d.tj_average;
-        return d;
     }
 
-    function sdEnter(d, i) {
+    function sdHighlightOn(d, i) {
         d3.selectAll("rect.sdBar").style("opacity", 1);
         d3.selectAll("rect.tjBar").style("opacity", .2);
     }
-    function sdLeave(d, i) {
+    function sdHighlightOff(d, i) {
         d3.selectAll("rect.sdBar").style("opacity", .7);
         d3.selectAll("rect.tjBar").style("opacity", .7);
     }
 
-    function tjEnter(d, i) {
+    function tjHighlightOn(d, i) {
         d3.selectAll("rect.tjBar").style("opacity", 1);
         d3.selectAll("rect.sdBar").style("opacity", .2);
     }
-    function tjLeave(d, i) {
+    function tjHighlightOff(d, i) {
         d3.selectAll("rect.tjBar").style("opacity", .7);
         d3.selectAll("rect.sdBar").style("opacity", .7);
     }
@@ -205,13 +214,10 @@ queue()
     }
 
     let ndx = crossfilter(allData);
-
     let proc_dim = ndx.dimension(dc.pluck('procedure'));
-
     let cost_dim = ndx.dimension(function(d) {
         return [d.procedure, d.cost, d.name];
     });
-
     let cost_group = cost_dim.group().reduceSum(function(d) {
         return [d.cost];
     });
@@ -228,9 +234,7 @@ queue()
         .brushOn(false)
         .symbolSize(8)
         .clipPadding(10)
-        // .xAxisLabel("Procedure")
         .yAxisLabel("Cost")
-        // .legend(dc.legend().x(80).y(20).itemHeight(13).gap(5))
         .renderHorizontalGridLines(true)
         .group(cost_group)
         .renderlet(function (chart) {
@@ -242,6 +246,8 @@ queue()
 
     //PIE CHARTS ***************************************************
 
+    let dataByCity = assemblePieData();
+
     width = 275;
     height = 300;
 
@@ -250,61 +256,25 @@ queue()
         height = 350;
     }
 
-    let dataByCity = sortDataByCity(allData);
-    let mockDataByCity = determineMockDataTotals(dataByCity);
-    let sdData = mockDataByCity[0];
-    let tjData = mockDataByCity[1];
-
-    //San Diego
-
-    let pieColors = ["green", "blue"];
-    let colorscale = d3.scale.linear().domain([0,sdData.length]).range(pieColors);
+    let colorScale = d3.scale.linear().domain([0,2]).range(["green", "blue"]);
     labels = ["Actual Data", "Mock Data"];
 
-    svg = d3.select('#sd-pie-chart')
-        .append('svg')
-        .attr("width", width)
-        .attr("height", height)
-        .attr('viewBox','260 35 350 350');
+    let arc = setPieChartRadii()[0];
+    let arcOver = setPieChartRadii()[1];
 
-    let arc = d3.svg.arc()
-        .innerRadius(0)
-        .outerRadius(100);
-
-    let arcOver = d3.svg.arc()
-        .innerRadius(0)
-        .outerRadius(150);
+    //San Diego start
+    svg = createPieChart('#sd-pie-chart');
 
     let pie = d3.layout.pie()
         .value(function(d){ return d.value; });
 
-    let renderarcs = svg.append('g')
-        .attr('transform','translate(440,200)')
-        .selectAll('.arc')
-        .data(pie(sdData))
-        .enter()
-        .append('g')
-        .attr('class',"arc")
-        .attr("stroke", "black")
-        .style("stroke-width", "1px");
+    let data = pie(dataByCity[0]); //SD data
 
-    renderarcs.append('path')
-        .attr('d',arc)
-        .attr('fill',function(d,i){ return colorscale(i); })
-        .on("mouseover", function(d) {
-            d3.select(this).transition()
-                .duration(1000)
-                .attr("d", arcOver)
-                .style('opacity', .7);
-        })
-        .on("mouseout", function(d) {
-            d3.select(this).transition()
-                .duration(1000)
-                .attr("d", arc)
-                .style('opacity', 1);
-        });
+    let arcs = renderPieArcs(svg);
+    setArcFunctionality(arcs);
 
-    renderarcs.append('text')
+    //add labels and position them
+    arcs.append('text')
         .attr("transform", function(d) {
             var c = arc.centroid(d);
             return "translate(" + c[0]*4.5 +"," + c[1]*2.5 + ")";
@@ -314,52 +284,20 @@ queue()
         .attr("class", "pie-label")
         .style("stroke-width", "0");
 
-    //Tijuana
+    //San Diego end
 
-    svg = d3.select('#tj-pie-chart')
-        .append('svg')
-        .attr("width", width)
-        .attr("height", height)
-        .attr('viewBox','260 35 350 350');
-
-    arc = d3.svg.arc()
-        .innerRadius(0)
-        .outerRadius(100);
-
-    arcOver = d3.svg.arc()
-        .innerRadius(0)
-        .outerRadius(150);
+    //Tijuana start
+    svg = createPieChart('#tj-pie-chart')
 
     pie = d3.layout.pie()
         .value(function(d){ return d.value; });
+    data = pie(dataByCity[1]); //TJ data
 
-    renderarcs = svg.append('g')
-        .attr('transform','translate(440,200)')
-        .selectAll('.arc')
-        .data(pie(tjData))
-        .enter()
-        .append('g')
-        .attr('class',"arc")
-        .attr("stroke", "black")
-        .style("stroke-width", "1px");
+    arcs = renderPieArcs(svg);
+    setArcFunctionality(arcs);
 
-    renderarcs.append('path')
-        .attr('d',arc)
-        .attr('fill',function(d,i){ return colorscale(i); })
-        .on("mouseover", function(d) {
-            d3.select(this).transition()
-                .duration(1000)
-                .attr("d", arcOver)
-                .style('opacity', .7);
-        })
-        .on("mouseout", function(d) {
-            d3.select(this).transition()
-                .duration(1000)
-                .attr("d", arc)
-                .style('opacity', 1);
-        });
-
-    renderarcs.append('text')
+    //add labels and position them
+    arcs.append('text')
         .attr("transform", function(d) {
             var c = arc.centroid(d);
             return "translate(" + c[0]*2.0 +"," + c[1]*4.0 + ")";
@@ -368,6 +306,64 @@ queue()
         .text(function(d, i){ return labels[i]; })
         .attr("class", "pie-label")
         .style("stroke-width", "0");
+
+    //Tijuana end
+
+    function assemblePieData() {
+        let dataByCity = sortDataByCity(allData);
+        return determineMockDataTotals(dataByCity);
+    }
+
+    function createPieChart(anchorId) {
+        return d3.select(anchorId)
+            .append('svg')
+            .attr("width", width)
+            .attr("height", height)
+            .attr('viewBox','260 35 350 350');
+    }
+
+    function setPieChartRadii() {
+        return [
+            d3.svg.arc()
+                .innerRadius(0)
+                .outerRadius(100),
+            d3.svg.arc()
+                .innerRadius(0)
+                .outerRadius(150)
+        ];
+    }
+
+    function renderPieArcs() {
+        return svg.append('g')
+            .attr('transform','translate(440,200)')
+            .selectAll('.arc')
+            .data(data)
+            .enter()
+            .append('g')
+            .attr('class',"arc")
+            .attr("stroke", "black")
+            .style("stroke-width", "1px");
+    }
+
+    function setArcFunctionality(arcs) {
+        arcs.append('path')
+            .attr('d',arc)
+            .attr('fill',function(d,i){ return colorScale(i); })
+            .on("mouseover", function(d) {
+                d3.select(this).transition()
+                    .duration(1000)
+                    .attr("d", arcOver)
+                    .style('opacity', .7);
+            })
+            .on("mouseout", function(d) {
+                d3.select(this).transition()
+                    .duration(1000)
+                    .attr("d", arc)
+                    .style('opacity', 1);
+            });
+    }
+
+
 
 
     dc.renderAll(); //currently this only renders the scatter chart

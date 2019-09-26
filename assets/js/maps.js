@@ -15,7 +15,7 @@ $(document).ready
         xobj.overrideMimeType("application/json");
         xobj.open('GET', file, true);
         xobj.onreadystatechange = function () {
-            if (xobj.readyState == 4 && xobj.status == "200") {
+            if (xobj.readyState == 4 && xobj.status == "200") { //Do not use triple equals here
                 callback(xobj.responseText);
             }
         };
